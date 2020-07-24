@@ -321,16 +321,18 @@ public class Player : MonoBehaviour
 
         switch (((int)playerGravityDirection - convertedDirection + 4) % 4) {
             case 0:
+                Jump();
                 break;
             case 1:
+                //spriteRenderer.flipX = !IsPlayerXFilp;
                 break;
             case 2:
+                Jump();
                 break;
             case 3:
+                //spriteRenderer.flipX = !IsPlayerXFilp;
                 break;
         }
-
-
     }
 
     // Update is called once per frame
