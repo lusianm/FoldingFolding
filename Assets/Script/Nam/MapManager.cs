@@ -98,6 +98,9 @@ public class MapManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 배치된 맵 타일의 정보를 디버그 로그로 출력합니다.
+    /// </summary>
     private void DebugLog_MapTiles()
     {
         string alltemp = "";
@@ -127,8 +130,11 @@ public class MapManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 이동할 수 있는 칸인가요? 
+    /// 이동할 수 있는 칸인가요?
+    /// 입력된 좌표의 타일을 지나갈 수 있는 지 확인합니다.
     /// </summary>
+    /// <param name="x">좌표 x</param>
+    /// <param name="y">좌표 y</param>
     public bool Get_Passible(int x, int y)
     {
         if (x < 1 || y < 1) return false;
@@ -138,6 +144,36 @@ public class MapManager : MonoBehaviour
         if (MapTiles[x, y].myTileType.Equals(TILE_TYPE.노랑_톱니로부숴)) return false;
 
         return true;
+    }
+
+    /// <summary>
+    /// 입력된 좌표의 타일 속성 값을 반환합니다. 유효한 타일이 아닌 경우 -1을 반환합니다.
+    /// 0 : 분홍_빈공간,
+    /// 1 : 파랑_걷는공간,
+    /// 2 : 검정_변형불가,
+    /// 3 : 노랑_톱니로부숴
+    /// </summary>
+    /// <param name="x">좌표 x</param>
+    /// <param name="y">좌표 y</param>
+    public int Get_MapTileType(int x, int y)
+    {
+        if (x < 1 || y < 1) return -1;
+        if (x >= maxx || y >= maxy) return -1;
+
+        return (int)MapTiles[x, y].myTileType;
+    }
+
+    /// <summary>
+    /// 입력된 좌표의 타일의 World Position 값을 반환합니다. 유효한 타일이 아닌 경우 Vector.Zero를 반환합니다.
+    /// </summary>
+    /// <param name="x">좌표 x</param>
+    /// <param name="y">좌표 y</param>
+    public Vector3 Get_MapTilePosition(int x, int y)
+    {
+        if (x < 1 || y < 1) return Vector3.zero;
+        if (x >= maxx || y >= maxy) return Vector3.zero;
+
+        return MapTiles[x, y].transform.position;
     }
 
 }
