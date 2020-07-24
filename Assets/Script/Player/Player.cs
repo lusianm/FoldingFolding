@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     //Player의 칸의 좌표
     Vector2 playerPosition;
-    Vector2[] directionVector = { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
+    Vector2[] directionVector = { Vector2.down, Vector2.right, Vector2.up, Vector2.left };
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     [SerializeField] private float inputDelay = 1f;
@@ -160,6 +160,7 @@ public class Player : MonoBehaviour
                 int directionIndex = ((int)playerGravityDirection - 1 + 4) % 4;
                 Vector2 targetPosition = playerPosition + directionVector[directionIndex];
                 Debug.Log("Idle X>0 Move - TargetPosition : " + targetPosition);
+                Debug.Log("Idle X>0 Move - directionVector : " + directionVector[directionIndex]);
 
                 //이동이 가능할 경우
                 if (MapManager.instance.Get_MapTileType((int)targetPosition.x, (int)targetPosition.y) == 0)
@@ -186,6 +187,7 @@ public class Player : MonoBehaviour
                 int directionIndex = ((int)playerGravityDirection + 1) % 4;
                 Vector2 targetPosition = playerPosition + directionVector[directionIndex];
                 Debug.Log("Idle X<0 Move - TargetPosition : " + targetPosition);
+                Debug.Log("Idle X<0 Move - directionVector : " + directionVector[directionIndex]);
 
                 //이동이 가능할 경우
                 if (MapManager.instance.Get_MapTileType((int)targetPosition.x, (int)targetPosition.y) == 0)
@@ -198,8 +200,8 @@ public class Player : MonoBehaviour
                     StartCoroutine(MovingTime());
                 }
 
-                //else
                 //이동이 불가능 할 경우
+                else
                 {
                     playerGravityDirection = playerDirectionEnum[directionIndex];
                     transform.Rotate(new Vector3(0, 0, -90));
@@ -218,12 +220,14 @@ public class Player : MonoBehaviour
                 int directionIndex = ((int)playerGravityDirection - 1 + 4) % 4;
                 Vector2 targetPosition = playerPosition + directionVector[directionIndex];
                 Vector2 targetGroundPosition = playerGroundPosition + directionVector[directionIndex];
+                Debug.Log("Crunch X>0 Move - TargetPosition : " + targetPosition);
                 //공간이 비어 있으면
                 if (MapManager.instance.Get_MapTileType((int)targetPosition.x, (int)targetPosition.y) == 0
                     && MapManager.instance.Get_MapTileType((int)targetGroundPosition.x, (int)targetGroundPosition.y) == 0)
                 {
                     playerGravityDirection = playerDirectionEnum[(directionIndex + 2) % 4];
                     transform.Rotate(new Vector3(0, 0, -90));
+                    playerPosition = targetGroundPosition;
                     transform.position = MapManager.instance.Get_MapTilePosition((int)playerPosition.x, (int)playerPosition.y);
                     //transform.position = MapManager.instance.Get_MapTilePosition((int)playerGroundPosition.x, (int)playerGroundPosition.y) + GravityDirectionCorrectionVector();
                     //spriteRenderer.flipX = true;
@@ -239,12 +243,14 @@ public class Player : MonoBehaviour
                 int directionIndex = ((int)playerGravityDirection + 1) % 4;
                 Vector2 targetPosition = playerPosition + directionVector[directionIndex];
                 Vector2 targetGroundPosition = playerGroundPosition + directionVector[directionIndex];
+                Debug.Log("Crunch X<0 Move - TargetPosition : " + targetPosition);
                 //공간이 비어 있으면
                 if (MapManager.instance.Get_MapTileType((int)targetPosition.x, (int)targetPosition.y) == 0
                     && MapManager.instance.Get_MapTileType((int)targetGroundPosition.x, (int)targetGroundPosition.y) == 0)
                 {
                     playerGravityDirection = playerDirectionEnum[(directionIndex + 2) % 4];
                     transform.Rotate(new Vector3(0, 0, 90));
+                    playerPosition = targetGroundPosition;
                     transform.position = MapManager.instance.Get_MapTilePosition((int)playerPosition.x, (int)playerPosition.y);
                     //transform.position = MapManager.instance.Get_MapTilePosition((int)playerGroundPosition.x, (int)playerGroundPosition.y) + GravityDirectionCorrectionVector();
                     //spriteRenderer.flipX = true;
