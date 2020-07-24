@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    //Player가 밟고 있는 칸의 좌표
+    //Player의 칸의 좌표
     Vector2 playerPosition;
     Vector2[] directionVector = { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     [SerializeField] private float inputDelay = 1f;
+    [SerializeField] Vector2 PlayerInitialSetPosition;
     public enum PlayerDirection
     {
         Up = 0, Right = 1, Down = 2, Left = 3
@@ -22,14 +23,21 @@ public class Player : MonoBehaviour
     }
     [SerializeField] PlayerState playerState;
 
+    //Player가 밟고 있는 칸의 좌표
+    [SerializeField] public Vector2 playerGroundPosition => playerPosition + directionVector[(int)playerGravityDirection];
+
+    //Player의 상태를 확인하는 함수
     public bool IsIdle()
         => (playerState == PlayerState.Idle);
     public bool IsCrouching()
         => (playerState == PlayerState.Crouching);
+
+    //Player가 움직일 수 있는지 여부를 반환하는 함수
     public bool IsMovable()
         => IsIdle() || IsCrouching();
+
+    //Player의 Sprite의 X 반전 여부를 반환하는 함수
     public bool IsPlyerXFlip => spriteRenderer.flipX;
-    public bool IsPlyerYFlip => spriteRenderer.flipY;
 
     //Gravity의 방향에 따라 Input값을 Player기준으로 변환시켜주는 함수
     private float MoveDirectionConvert(float xAxis, float yAxis)
@@ -98,9 +106,10 @@ public class Player : MonoBehaviour
     }
 
     //Gravity의 방향에 따라 Player의 Position값을 보정해주는 함수
-    private Vector2 GravityDirectionCorrectionVector2()
+    private Vector3 GravityDirectionCorrectionVector()
     {
-        Vector2 correctionVector = Vector2.zero;
+        Vector3 correctionVector = Vector3.zero;
+        correctionVector.z = transform.position.z;
         switch (playerGravityDirection)
         {
             case PlayerDirection.Up:
@@ -133,7 +142,7 @@ public class Player : MonoBehaviour
 
     }
 
-    //Player의 이동처리 함수
+    //Player의 이동 처리 함수
     public void Move(float xAxis, float yAxis)
     {
         if (!IsMovable())
@@ -148,40 +157,45 @@ public class Player : MonoBehaviour
         {
             if (convertedXAxis > 0)
             {
-                Debug.Log("Idle X>0 Move");
-
                 int directionIndex = ((int)playerGravityDirection - 1 + 4) % 4;
-                //if(Map.MoveCheck( playerPosition, directionVector[directionIndex]))
+                Vector2 targetPosition = playerPosition + directionVector[directionIndex];
+                Debug.Log("Idle X>0 Move - TargetPosition : " + targetPosition);
+
                 //이동이 가능할 경우
+                if (MapManager.instance.Get_MapTileType((int)targetPosition.x, (int)targetPosition.y) == 0)
                 {
-                    //playerPosition += directionVector[directionIndex]
-                    //transform.position = Map.MapPosition(playerPosition)
-                    //                      +GravityDirectionCorrectionVector2()
+                    playerPosition = targetPosition;
+                    transform.position = MapManager.instance.Get_MapTilePosition((int)playerPosition.x, (int)playerPosition.y);
                     //spriteRenderer.flipX = false;
+                    playerState = PlayerState.Move;
+                    StartCoroutine(MovingTime());
                 }
 
-                //else
                 //이동이 불가능 할 경우
+                else
                 {
                     playerGravityDirection = playerDirectionEnum[directionIndex];
                     transform.Rotate(new Vector3(0, 0, 90));
                     //spriteRenderer.flipX = true;
                     playerState = PlayerState.Move;
                     StartCoroutine(MovingTime());
-                    //spriteRenderer.flipX = false;
                 }
             }
             else
             {
-                Debug.Log("Idle X<0 Move");
                 int directionIndex = ((int)playerGravityDirection + 1) % 4;
-                //if(Map.MoveCheck( playerPosition, directionVector[directionIndex]))
+                Vector2 targetPosition = playerPosition + directionVector[directionIndex];
+                Debug.Log("Idle X<0 Move - TargetPosition : " + targetPosition);
+
                 //이동이 가능할 경우
+                if (MapManager.instance.Get_MapTileType((int)targetPosition.x, (int)targetPosition.y) == 0)
                 {
-                    //playerPosition += directionVector[3]
-                    //transform.position = Map.MapPosition(playerPosition)
-                    //                      +GravityDirectionCorrectionVector2()
+                    playerPosition = targetPosition;
+                    transform.position = MapManager.instance.Get_MapTilePosition((int)playerPosition.x, (int)playerPosition.y);
+                    //transform.position = MapManager.instance.Get_MapTilePosition((int)playerGroundPosition.x, (int)playerGroundPosition.y) + GravityDirectionCorrectionVector();
                     //spriteRenderer.flipX = false;
+                    playerState = PlayerState.Move;
+                    StartCoroutine(MovingTime());
                 }
 
                 //else
@@ -189,30 +203,32 @@ public class Player : MonoBehaviour
                 {
                     playerGravityDirection = playerDirectionEnum[directionIndex];
                     transform.Rotate(new Vector3(0, 0, -90));
-                    //spriteRenderer.flipX = true;
+                    //spriteRenderer.flipX = false;
                     playerState = PlayerState.Move;
                     StartCoroutine(MovingTime());
-                    //spriteRenderer.flipX = false;
                 }
             }
         }
+
+        //웅크리고 있는 상태
         else
         {
-
             if (convertedXAxis > 0)
             {
                 int directionIndex = ((int)playerGravityDirection - 1 + 4) % 4;
+                Vector2 targetPosition = playerPosition + directionVector[directionIndex];
+                Vector2 targetGroundPosition = playerGroundPosition + directionVector[directionIndex];
                 //공간이 비어 있으면
-                //if(Map.MoveCheck2( playerPosition, directionVector[directionIndex]))
+                if (MapManager.instance.Get_MapTileType((int)targetPosition.x, (int)targetPosition.y) == 0
+                    && MapManager.instance.Get_MapTileType((int)targetGroundPosition.x, (int)targetGroundPosition.y) == 0)
                 {
                     playerGravityDirection = playerDirectionEnum[(directionIndex + 2) % 4];
                     transform.Rotate(new Vector3(0, 0, -90));
-                    //transform.position = Map.MapPosition(playerPosition)
-                    //                      +GravityDirectionCorrectionVector2()
+                    transform.position = MapManager.instance.Get_MapTilePosition((int)playerPosition.x, (int)playerPosition.y);
+                    //transform.position = MapManager.instance.Get_MapTilePosition((int)playerGroundPosition.x, (int)playerGroundPosition.y) + GravityDirectionCorrectionVector();
                     //spriteRenderer.flipX = true;
                     playerState = PlayerState.Move;
                     StartCoroutine(MovingTime());
-
                 }
 
                 //else
@@ -221,13 +237,16 @@ public class Player : MonoBehaviour
             else
             {
                 int directionIndex = ((int)playerGravityDirection + 1) % 4;
+                Vector2 targetPosition = playerPosition + directionVector[directionIndex];
+                Vector2 targetGroundPosition = playerGroundPosition + directionVector[directionIndex];
                 //공간이 비어 있으면
-                //if(Map.MoveCheck2( playerPosition, directionVector[directionIndex]))
+                if (MapManager.instance.Get_MapTileType((int)targetPosition.x, (int)targetPosition.y) == 0
+                    && MapManager.instance.Get_MapTileType((int)targetGroundPosition.x, (int)targetGroundPosition.y) == 0)
                 {
                     playerGravityDirection = playerDirectionEnum[(directionIndex + 2) % 4];
                     transform.Rotate(new Vector3(0, 0, 90));
-                    //transform.position = Map.MapPosition(playerPosition)
-                    //                      +GravityDirectionCorrectionVector2()
+                    transform.position = MapManager.instance.Get_MapTilePosition((int)playerPosition.x, (int)playerPosition.y);
+                    //transform.position = MapManager.instance.Get_MapTilePosition((int)playerGroundPosition.x, (int)playerGroundPosition.y) + GravityDirectionCorrectionVector();
                     //spriteRenderer.flipX = true;
                     playerState = PlayerState.Move;
                     StartCoroutine(MovingTime());
@@ -242,6 +261,7 @@ public class Player : MonoBehaviour
 
     }
 
+    //Player의 점프 처리 함수
     public void Jump()
     {
         //if (Map.MoveCheck(playerPosition, directionVector[(playerGravityDirection + 2 + 4) % 4]))
@@ -268,6 +288,15 @@ public class Player : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void SetPlayer()
+    {
+        playerPosition = PlayerInitialSetPosition;
+        playerGravityDirection = PlayerDirection.Down;
+        playerState = PlayerState.Idle;
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+        transform.position = MapManager.instance.Get_MapTilePosition((int)playerPosition.x, (int)playerPosition.y);
     }
 
     IEnumerator MovingTime()

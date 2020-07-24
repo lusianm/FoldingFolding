@@ -7,7 +7,7 @@ public class PlayerInput : MonoBehaviour
     Player player;
     float InputXAxis;
     float InputYAxis;
-    // Start is called before the first frame update
+
     void Start()
     {
         player = transform.GetComponent<Player>();
@@ -19,6 +19,8 @@ public class PlayerInput : MonoBehaviour
         //마우스 클릭 될 경우
         //if
         {
+            if (Input.GetKeyDown(KeyCode.N))
+                player.SetPlayer();
             if (player.IsMovable())
             {
                 InputXAxis = Input.GetAxisRaw("Horizontal");
