@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+<<<<<<< HEAD
     //Player가 밟고 있는 칸의 좌표
     Vector2 playerPosition;
     Vector2[] directionVector = { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
@@ -263,6 +264,12 @@ public enum PlayerState
         //animator = this.GetComponent<Animator>();
         playerState = PlayerState.Idle;
         playerGravityDirection = PlayerDirection.Down;
+=======
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+>>>>>>> master
     }
 
     // Update is called once per frame
@@ -270,6 +277,7 @@ public enum PlayerState
     {
         
     }
+<<<<<<< HEAD
 
     IEnumerator MovingTime()
     {
@@ -277,4 +285,6 @@ public enum PlayerState
         if(playerState == PlayerState.Move)
             playerState = PlayerState.Idle;
     }
+=======
+>>>>>>> master
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
+<<<<<<< HEAD
     Player player;
     float InputXAxis;
     float InputYAxis;
@@ -11,11 +12,18 @@ public class PlayerInput : MonoBehaviour
     void Start()
     {
         player = transform.GetComponent<Player>();
+=======
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+>>>>>>> master
     }
 
     // Update is called once per frame
     void Update()
     {
+<<<<<<< HEAD
         //마우스 클릭 될 경우
         //if
         {
@@ -26,5 +34,8 @@ public class PlayerInput : MonoBehaviour
                 player.Move(InputXAxis, InputYAxis);
             }
         }
+=======
+        
+>>>>>>> master
     }
 }
