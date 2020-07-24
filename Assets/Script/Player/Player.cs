@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     [SerializeField] private float inputDelay = 1f;
-
     public enum PlayerDirection
     {
         Up = 0, Right = 1, Down = 2, Left = 3
@@ -35,6 +34,7 @@ public class Player : MonoBehaviour
     //Gravity의 방향에 따라 Input값을 Player기준으로 변환시켜주는 함수
     private float MoveDirectionConvert(float xAxis, float yAxis)
     {
+        
         if (xAxis == 0 && yAxis == 0)
         {
             if (IsCrouching())
@@ -251,7 +251,6 @@ public class Player : MonoBehaviour
             //spriteRenderer.flipX = !IsPlayerXFilp;
             playerState = PlayerState.Move;
             StartCoroutine(MovingTime());
-
         }
 
     }

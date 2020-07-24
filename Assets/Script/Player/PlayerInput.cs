@@ -24,6 +24,10 @@ public class PlayerInput : MonoBehaviour
                 InputXAxis = Input.GetAxisRaw("Horizontal");
                 InputYAxis = Input.GetAxisRaw("Vertical");
                 player.Move(InputXAxis, InputYAxis);
+                if (Input.GetKeyDown(KeyCode.Z))
+                {
+                    player.Jump();
+                }
             }
         }
     }
