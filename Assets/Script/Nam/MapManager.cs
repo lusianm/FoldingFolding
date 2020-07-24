@@ -60,13 +60,13 @@ public class MapManager : MonoBehaviour
     private void SetInitialize_MapTiles()
     {
         //MapTiles = new int[maxx, maxy];
-        MapTiles = new MapTile[maxy, maxx];
+        MapTiles = new MapTile[maxx, maxy];
 
         GameObject motherTr = new GameObject();
 
-        for (int i = 0; i < maxx; i++)
+        for (int i = 0; i < maxy; i++)
         {
-            for(int j = 0; j < maxy; j++)
+            for(int j = 0; j < maxx; j++)
             {
                 //임시로 랜덤 타일 생성
                 int randTileIndex = Random.Range(0, (int)TILE_TYPE.노랑_톱니로부숴 + 1);
@@ -91,8 +91,8 @@ public class MapManager : MonoBehaviour
         }
 
         //생성한 타일들을 중심 좌표로 보정 이동
-        float corrX = _tilePadValue * (maxy - 1) * 0.5f;
-        float corrY = _tilePadValue * (maxx - 1) * 0.5f;
+        float corrX = _tilePadValue * (maxx - 1) * 0.5f;
+        float corrY = _tilePadValue * (maxy - 1) * 0.5f;
 
         motherTr.transform.Translate(new Vector3(-corrX, corrY, 0), Space.World);
 
@@ -104,12 +104,12 @@ public class MapManager : MonoBehaviour
     private void DebugLog_MapTiles()
     {
         string alltemp = "";
-        for(int i = 0; i < MapTiles.GetLength(0); i++)
+        for(int i = 0; i < MapTiles.GetLength(1); i++)
         {
             string temp = "";
-            for(int j = 0; j < MapTiles.GetLength(1); j++)
+            for(int j = 0; j < MapTiles.GetLength(0); j++)
             {
-                temp += (int)MapTiles[i, j].myTileType;
+                temp += (int)MapTiles[j, i].myTileType;
             }
             alltemp += temp + "\n";
         }

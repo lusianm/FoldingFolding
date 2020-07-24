@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3389ec084e965d4cb87ee5a29eacbc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxx: 4
+  maxx: 8
   maxy: 10
   _tilePadValue: 0.33
   tilePrefab:
