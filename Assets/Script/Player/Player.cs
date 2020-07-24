@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-<<<<<<< HEAD
     //Player가 밟고 있는 칸의 좌표
     Vector2 playerPosition;
     Vector2[] directionVector = { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
@@ -14,11 +13,11 @@ public class Player : MonoBehaviour
 
     public enum PlayerDirection
     {
-        Up = 0, Right = 1, Down = 2, Left= 3
+        Up = 0, Right = 1, Down = 2, Left = 3
     }
     PlayerDirection[] playerDirectionEnum = { PlayerDirection.Up, PlayerDirection.Right, PlayerDirection.Down, PlayerDirection.Left };
     [SerializeField] PlayerDirection playerGravityDirection;
-public enum PlayerState
+    public enum PlayerState
     {
         Idle, Move, Crouching, Jump, Falling, DIe, Damaged, StageClear
     }
@@ -36,7 +35,7 @@ public enum PlayerState
     //Gravity의 방향에 따라 Input값을 Player기준으로 변환시켜주는 함수
     private float MoveDirectionConvert(float xAxis, float yAxis)
     {
-        if(xAxis == 0 && yAxis == 0)
+        if (xAxis == 0 && yAxis == 0)
         {
             if (IsCrouching())
                 playerState = PlayerState.Idle;
@@ -47,11 +46,11 @@ public enum PlayerState
         {
             case PlayerDirection.Up:
                 {
-                    if(yAxis > 0 && IsIdle())
+                    if (yAxis > 0 && IsIdle())
                     {
                         playerState = PlayerState.Crouching;
                     }
-                    else if(yAxis <= 0 && IsCrouching())
+                    else if (yAxis <= 0 && IsCrouching())
                     {
                         playerState = PlayerState.Idle;
                     }
@@ -139,7 +138,7 @@ public enum PlayerState
     {
         if (!IsMovable())
             return;
-        
+
         float convertedXAxis = MoveDirectionConvert(xAxis, yAxis);
 
         if (convertedXAxis == 0)
@@ -206,7 +205,7 @@ public enum PlayerState
                 //공간이 비어 있으면
                 //if(Map.MoveCheck2( playerPosition, directionVector[directionIndex]))
                 {
-                    playerGravityDirection = playerDirectionEnum[(directionIndex+2)%4];
+                    playerGravityDirection = playerDirectionEnum[(directionIndex + 2) % 4];
                     transform.Rotate(new Vector3(0, 0, -90));
                     //transform.position = Map.MapPosition(playerPosition)
                     //                      +GravityDirectionCorrectionVector2()
@@ -240,7 +239,7 @@ public enum PlayerState
 
             }
         }
-        
+
     }
 
     public void Jump()
@@ -264,27 +263,18 @@ public enum PlayerState
         //animator = this.GetComponent<Animator>();
         playerState = PlayerState.Idle;
         playerGravityDirection = PlayerDirection.Down;
-=======
-    // Start is called before the first frame update
-    void Start()
-    {
-        
->>>>>>> master
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
-<<<<<<< HEAD
 
     IEnumerator MovingTime()
     {
         yield return new WaitForSeconds(inputDelay);
-        if(playerState == PlayerState.Move)
+        if (playerState == PlayerState.Move)
             playerState = PlayerState.Idle;
     }
-=======
->>>>>>> master
 }
