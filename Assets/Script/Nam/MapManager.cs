@@ -17,7 +17,6 @@ public class MapManager : MonoBehaviour
     /// </summary>
     //public int[,] MapTiles;
     public MapTile[,] MapTiles;
-    public MapTile clickTile;
 
     /// <summary>
     /// 최대 줄 (가로)
@@ -28,6 +27,7 @@ public class MapManager : MonoBehaviour
     /// </summary>
     public int maxy;
 
+    [Range(0, 1)]
     [SerializeField] float _tilePadValue = 0.33f;
 
     public MapTile[] tilePrefab;
@@ -60,7 +60,7 @@ public class MapManager : MonoBehaviour
     private void SetInitialize_MapTiles()
     {
         //MapTiles = new int[maxx, maxy];
-        MapTiles = new MapTile[maxx, maxy];
+        MapTiles = new MapTile[maxy, maxx];
 
         GameObject motherTr = new GameObject();
 
@@ -81,12 +81,12 @@ public class MapManager : MonoBehaviour
 
                 //타일 속성 정의
                 MapTile newTile = obj.GetComponent<MapTile>();
-                newTile.currX = i;
-                newTile.currY = j;
+                newTile.currX = j;
+                newTile.currY = i;
                 newTile.myTileType = (TILE_TYPE)System.Enum.ToObject(typeof(TILE_TYPE), randTileIndex); ;
 
                 //배열 저장
-                MapTiles[i, j] = newTile;
+                MapTiles[j, i] = newTile;
             }
         }
 
@@ -157,7 +157,7 @@ public class MapManager : MonoBehaviour
     /// <param name="y">좌표 y</param>
     public int Get_MapTileType(int x, int y)
     {
-        if (x < 1 || y < 1) return -1;
+        if (x < 0 || y < 0) return -1;
         if (x >= maxx || y >= maxy) return -1;
 
         return (int)MapTiles[x, y].myTileType;
@@ -170,7 +170,7 @@ public class MapManager : MonoBehaviour
     /// <param name="y">좌표 y</param>
     public Vector3 Get_MapTilePosition(int x, int y)
     {
-        if (x < 1 || y < 1) return Vector3.zero;
+        if (x < 0 || y < 0) return Vector3.zero;
         if (x >= maxx || y >= maxy) return Vector3.zero;
 
         return MapTiles[x, y].transform.position;
