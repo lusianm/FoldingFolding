@@ -44,6 +44,14 @@ public class TileController : MonoBehaviour
             {
                 StartCoroutine(RotateObject(PlayerDirection.Right));
             }
+            else if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                for(int i=0;i<selectedTile.Count;i++)
+                {
+                    selectedTile[i].UnSelectTile();
+                }
+                selectedTile.Clear();
+            }
         }
         if (Input.GetMouseButtonUp(0))
         {
@@ -282,7 +290,7 @@ public class TileController : MonoBehaviour
                 //hittedTileList[i].SetTileInfo(copiedTile[i].GetComponent<Tile>());
                 hittedTileList[i].SetTileInfo(copiedTile[i].GetComponent<MapTile>());
             }
-            Vector2 newPlayerIndex = new Vector2(hittedTileList[playerIndexList].currX, hittedTileList[playerIndexList].currX);
+            Vector2 newPlayerIndex = new Vector2(hittedTileList[playerIndexList].currX, hittedTileList[playerIndexList].currY);
             if (tileHasPlayer == true) Player.playerInstance.playerFolding(newPlayerIndex, (int)dir);
         }
 
