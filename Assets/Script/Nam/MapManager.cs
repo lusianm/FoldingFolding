@@ -69,8 +69,15 @@ public class MapManager : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        SetInitialize_MapTiles();
+        DebugLog_MapTiles();
+    }
+
     /////// 임의로 타일을 생성하고자 활성화/비활성화로 처리해두었습니다.   ///////////////////
     /////// 고정된 값으로 생성하기 위해 _inputTileData 필드를 사용해주세요.
+    /*
     private void OnEnable()
     {
         SetInitialize_MapTiles();
@@ -84,6 +91,7 @@ public class MapManager : MonoBehaviour
         if (obj == null) return;
         Destroy(obj);
     }
+    */
     /////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
@@ -289,6 +297,9 @@ public class MapManager : MonoBehaviour
     public void SetTile_Passible(int x, int y)
     {
         if (!MapTiles[x, y].myTileType.Equals(TILE_TYPE.노랑_톱니로부숴)) return;
+
+        MapTiles[x, y].originSprite = Resources.Load<Sprite>("PinkTile");
+        MapTiles[x, y].GetComponent<SpriteRenderer>().sprite = MapTiles[x, y].originSprite;
 
         MapTiles[x, y].myTileType = TILE_TYPE.분홍_빈공간;
 

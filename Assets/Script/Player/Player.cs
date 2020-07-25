@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float inputDelay = 1f;
     [SerializeField] private float fallingSpeed = 1f;
     [SerializeField] Vector2 PlayerInitialSetCoordinate;
+    bool stageClear = false;
 
     public static Player playerInstance;
     private void Awake()
@@ -283,16 +284,18 @@ public class Player : MonoBehaviour
                 break;
             case 1:
                 spriteRenderer.flipX = !IsPlayerXFlip;
+                playerState = PlayerState.Move;
+                StartCoroutine(MovingTime());
                 break;
             case 2:
                 Jump();
                 break;
             case 3:
                 spriteRenderer.flipX = !IsPlayerXFlip;
+                playerState = PlayerState.Move;
+                StartCoroutine(MovingTime());
                 break;
         }
-        playerState = PlayerState.Move;
-        StartCoroutine(MovingTime());
     }
 
     // Update is called once per frame
@@ -310,7 +313,7 @@ public class Player : MonoBehaviour
 
     public void PlayerDie()
     {
-        if (playerState != PlayerState.StageClear)
+        if (!stageClear)
         {
             playerState = PlayerState.DIe;
             playerAnimator.SetTrigger("PlayerDie");
@@ -321,6 +324,8 @@ public class Player : MonoBehaviour
     public void StageClear()
     {
         playerState = PlayerState.StageClear;
+        stageClear = true;
+
     }
 
     IEnumerator MovingTime()
