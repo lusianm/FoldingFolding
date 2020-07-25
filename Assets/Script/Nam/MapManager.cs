@@ -168,6 +168,7 @@ public class MapManager : MonoBehaviour
                 */
                 case Sub_ObjTYPE.플레이어:
                     subObj.GetComponent<Player>().SetPlayer((int)objsData[i].posIndex.x, (int)objsData[i].posIndex.y, (int)objsData[i].objDir);
+                    subObj.transform.parent = null;
                     break;
                 default:
                     subObj.GetComponent<IInteractableObject>().ObjectInit((int)objsData[i].posIndex.x, (int)objsData[i].posIndex.y, (int)objsData[i].objDir);
