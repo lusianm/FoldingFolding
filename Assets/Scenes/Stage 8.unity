@@ -322,8 +322,8 @@ MonoBehaviour:
     objDir: 2
     objType: 2
   - posIndex: {x: 5, y: 3}
-    objDir: 2
-    objType: 0
+    objDir: 0
+    objType: 3
 --- !u!1 &439449921
 GameObject:
   m_ObjectHideFlags: 0

@@ -322,7 +322,7 @@ MonoBehaviour:
     objDir: 2
     objType: 2
   - posIndex: {x: 4, y: 6}
-    objDir: 2
+    objDir: 3
     objType: 3
 --- !u!1 &439449921
 GameObject:

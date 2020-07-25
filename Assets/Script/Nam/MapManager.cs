@@ -93,7 +93,11 @@ public class MapManager : MonoBehaviour
     {
         List<int[]> tileArr = null;
         float _tilePadValue = GameManager.instance.tilePadValue;
+        
+        //이동 후 처리를 위한 변수 모음
         Player player = null;
+        List<Saw> saws = new List<Saw>();
+        List<int[]> sawsIndex = new List<int[]>();
 
         //비어 있지 않을 경우 입력값으로 고정 생성
         if (!(_inputTileData.Equals("") || _inputTileData == null))
@@ -171,6 +175,12 @@ public class MapManager : MonoBehaviour
                     player = subObj.GetComponent<Player>();
                     player.SetPlayer((int)objsData[i].posIndex.x, (int)objsData[i].posIndex.y, (int)objsData[i].objDir);
                     break;
+                case Sub_ObjTYPE.톱니:
+                    saws.Add(subObj.GetComponent<Saw>());
+                    sawsIndex.Add(new int[] { (int)objsData[i].posIndex.x, (int)objsData[i].posIndex.y, (int)objsData[i].objDir });
+                    //이동 보정 후 초기 값 설정
+                    //...
+                    break;
                 default:
                     subObj.GetComponent<IInteractableObject>().ObjectInit((int)objsData[i].posIndex.x, (int)objsData[i].posIndex.y, (int)objsData[i].objDir);
                     break;
@@ -189,6 +199,15 @@ public class MapManager : MonoBehaviour
 
         //플레이어의 경우 부모 종속 초기화
         player.transform.parent = null;
+
+        //톱의 경우 이동 후 초기화
+        for(int i = 0; i < saws.Count; i++)
+        {
+            saws[i].transform.parent = null;
+            saws[i].GetComponent<IInteractableObject>().ObjectInit(sawsIndex[0][0], sawsIndex[0][1], sawsIndex[0][2]);
+
+            saws[i].isReady = true;
+        }
     }
 
     /// <summary>

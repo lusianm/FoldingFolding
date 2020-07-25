@@ -315,7 +315,7 @@ MonoBehaviour:
     objDir: 2
     objType: 1
   - posIndex: {x: 1, y: 5}
-    objDir: 2
+    objDir: 1
     objType: 3
   - posIndex: {x: 5, y: 5}
     objDir: 2

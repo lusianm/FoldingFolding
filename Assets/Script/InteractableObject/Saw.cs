@@ -12,6 +12,8 @@ public class Saw : MonoBehaviour, IInteractableObject
     private Vector2 sawCoordinate;
     Vector2[] directionVector = { Vector2.down, Vector2.right, Vector2.up, Vector2.left };
 
+    public bool isReady = false;
+
     public void ObjectInit(Vector2 coordinate, int direction)
     {
         sawCoordinate = coordinate;
@@ -34,6 +36,8 @@ public class Saw : MonoBehaviour, IInteractableObject
     // Update is called once per frame
     void Update()
     {
+        if (!isReady) return; 
+
         if (IsMoving)
         {
             if (transform.position == targetPosition)
