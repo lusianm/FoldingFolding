@@ -16,11 +16,14 @@ public class PlayerInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //마우스 클릭 될 경우
-        //if
+        //마우스 클릭 이 되지 않았을 경우 동작
+        if(!TileController.instance.onMouseClick)
         {
             if (Input.GetKeyDown(KeyCode.N))
                 player.SetPlayer();
+            if (Input.GetKeyDown(KeyCode.R))
+                player.PlayerDie();
+
             if (player.IsMovable())
             {
                 InputXAxis = Input.GetAxisRaw("Horizontal");
