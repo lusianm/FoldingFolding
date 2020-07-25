@@ -283,16 +283,18 @@ public class Player : MonoBehaviour
                 break;
             case 1:
                 spriteRenderer.flipX = !IsPlayerXFlip;
+                playerState = PlayerState.Move;
+                StartCoroutine(MovingTime());
                 break;
             case 2:
                 Jump();
                 break;
             case 3:
                 spriteRenderer.flipX = !IsPlayerXFlip;
+                playerState = PlayerState.Move;
+                StartCoroutine(MovingTime());
                 break;
         }
-        playerState = PlayerState.Move;
-        StartCoroutine(MovingTime());
     }
 
     // Update is called once per frame
