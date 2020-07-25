@@ -44,6 +44,14 @@ public class TileController : MonoBehaviour
             {
                 StartCoroutine(RotateObject(PlayerDirection.Right));
             }
+            else if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                for(int i=0;i<selectedTile.Count;i++)
+                {
+                    selectedTile[i].UnSelectTile();
+                }
+                selectedTile.Clear();
+            }
         }
         if (Input.GetMouseButtonUp(0))
         {
