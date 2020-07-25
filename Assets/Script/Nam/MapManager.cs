@@ -263,6 +263,22 @@ public class MapManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 입력된 노란색 타일(톱니로 부술 수 있는 타일)을 분홍색 타일(이동할 수 있는 타일)로 변환합니다.
+    /// </summary>
+    /// <param name="x">좌표 x</param>
+    /// <param name="y">좌표 y</param>
+    public void SetTile_Passible(int x, int y)
+    {
+        if (!MapTiles[x, y].myTileType.Equals(TILE_TYPE.노랑_톱니로부숴)) return;
+
+        MapTiles[x, y].myTileType = TILE_TYPE.분홍_빈공간;
+
+        //박스 터지는 이펙트 재생
+        GameManager.instance.boxEffect.transform.position = MapTiles[x, y].transform.position;
+        GameManager.instance.boxEffect.Play();
+    }
+
+    /// <summary>
     /// 이동할 수 있는 칸인가요?
     /// 입력된 좌표의 타일을 지나갈 수 있는 지 확인합니다.
     /// </summary>

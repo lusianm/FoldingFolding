@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     [Range(0, 1)]
     public float tilePadValue = 0.33f;
 
+    public ParticleSystem boxEffect;
+
     [SerializeField] private ISceneManagerInterface sceneManager;
     // Start is called before the first frame update
     private void Awake()
