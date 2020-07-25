@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-enum Direction
-{
-    UP, RIGHT, DOWN, LEFT
-}
+
 public class TileController : MonoBehaviour
 {
     public static TileController instance = null;
@@ -32,19 +29,19 @@ public class TileController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) //Up
             {
-                StartCoroutine(RotateObject(Direction.UP));
+                StartCoroutine(RotateObject(PlayerDirection.Up));
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) //Down
             {
-                StartCoroutine(RotateObject(Direction.DOWN));
+                StartCoroutine(RotateObject(PlayerDirection.Down));
             }
             else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) //Left
             {
-                StartCoroutine(RotateObject(Direction.LEFT));
+                StartCoroutine(RotateObject(PlayerDirection.Left));
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) //Right
             {
-                StartCoroutine(RotateObject(Direction.RIGHT));
+                StartCoroutine(RotateObject(PlayerDirection.Right));
             }
         }
         if (Input.GetMouseButtonUp(0))
@@ -53,7 +50,7 @@ public class TileController : MonoBehaviour
         }
     }
 
-    IEnumerator RotateObject(Direction dir)
+    IEnumerator RotateObject(PlayerDirection dir)
     {
         //Tile lastSelectedTile = selectedTile[selectedTile.Count - 1];
         //Tile firstSelectedTile = selectedTile[0];
@@ -94,7 +91,7 @@ public class TileController : MonoBehaviour
 
             switch (dir)
             {
-                case Direction.UP:
+                case PlayerDirection.Up:
                     for (int i = 0; i < copiedTile.Count; i++)
                     {
                         if (firstSelectedTile.currY > lastSelectedTile.currY)
@@ -109,7 +106,7 @@ public class TileController : MonoBehaviour
                         }                            
                     }
                     break;
-                case Direction.DOWN:
+                case PlayerDirection.Down:
                     for (int i = 0; i < copiedTile.Count; i++)
                     {
                         if (firstSelectedTile.currY > lastSelectedTile.currY)
@@ -124,7 +121,7 @@ public class TileController : MonoBehaviour
                         }                            
                     }
                     break;
-                case Direction.LEFT:
+                case PlayerDirection.Left:
                     for (int i = 0; i < selectedTile.Count; i++)
                     {
                         if (firstSelectedTile.currX < lastSelectedTile.currX)
@@ -139,7 +136,7 @@ public class TileController : MonoBehaviour
                         }
                     }
                     break;
-                case Direction.RIGHT:
+                case PlayerDirection.Right:
                     for (int i = 0; i < copiedTile.Count; i++)
                     {
                         if (firstSelectedTile.currX < lastSelectedTile.currX)
@@ -204,7 +201,7 @@ public class TileController : MonoBehaviour
 
                 switch (dir)
                 {
-                    case Direction.UP:
+                    case PlayerDirection.Up:
                         for (int i = 0; i < copiedTile.Count; i++)
                         {
                             if (firstSelectedTile.currY > lastSelectedTile.currY)
@@ -220,7 +217,7 @@ public class TileController : MonoBehaviour
                             }
                         }
                         break;
-                    case Direction.DOWN:
+                    case PlayerDirection.Down:
                         for (int i = 0; i < copiedTile.Count; i++)
                         {
                             if (firstSelectedTile.currY > lastSelectedTile.currY)
@@ -236,7 +233,7 @@ public class TileController : MonoBehaviour
                             }
                         }
                         break;
-                    case Direction.LEFT:
+                    case PlayerDirection.Left:
                         for (int i = 0; i < selectedTile.Count; i++)
                         {
                             if (firstSelectedTile.currX < lastSelectedTile.currX)
@@ -253,7 +250,7 @@ public class TileController : MonoBehaviour
                                 
                         }
                         break;
-                    case Direction.RIGHT:
+                    case PlayerDirection.Right:
                         for (int i = 0; i < copiedTile.Count; i++)
                         {
                             if (firstSelectedTile.currX < lastSelectedTile.currX)
