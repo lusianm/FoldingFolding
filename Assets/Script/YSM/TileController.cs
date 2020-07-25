@@ -282,7 +282,7 @@ public class TileController : MonoBehaviour
                 //hittedTileList[i].SetTileInfo(copiedTile[i].GetComponent<Tile>());
                 hittedTileList[i].SetTileInfo(copiedTile[i].GetComponent<MapTile>());
             }
-            Vector2 newPlayerIndex = new Vector2(hittedTileList[playerIndexList].currX, hittedTileList[playerIndexList].currX);
+            Vector2 newPlayerIndex = new Vector2(hittedTileList[playerIndexList].currX, hittedTileList[playerIndexList].currY);
             if (tileHasPlayer == true) Player.playerInstance.playerFolding(newPlayerIndex, (int)dir);
         }
 
