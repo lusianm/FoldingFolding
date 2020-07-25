@@ -76,24 +76,11 @@ public class Saw : MonoBehaviour, IInteractableObject
 
     public void sawFolding(Vector2 foldCoordinate, int direction)
     {
-        //sawCoordinate = foldCoordinate;
-        //transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
-        //transform.rotation = Quaternion.Euler(0, 0, ((int)playerGravityDirection + 2) * -90f);
-        //switch (((int)playerGravityDirection - direction + 4) % 4)
-        //{
-        //    case 0:
-        //        Jump();
-        //        break;
-        //    case 1:
-        //        spriteRenderer.flipX = !IsPlayerXFlip;
-        //        break;
-        //    case 2:
-        //        Jump();
-        //        break;
-        //    case 3:
-        //        spriteRenderer.flipX = !IsPlayerXFlip;
-        //        break;
-        //}
+        sawCoordinate = foldCoordinate;
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+        transform.position = MapManager.instance.Get_MapTilePosition((int)sawCoordinate.x, (int)sawCoordinate.y);
+        targetPosition = transform.position;
+        IsMoving = true;
     }
 
     private void OnTriggerEnter(Collider other)
