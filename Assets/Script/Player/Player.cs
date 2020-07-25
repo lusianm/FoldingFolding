@@ -317,6 +317,7 @@ public class Player : MonoBehaviour
         {
             playerState = PlayerState.DIe;
             playerAnimator.SetTrigger("PlayerDie");
+            SoundManager.instance.Play_SFX(SFX_LIST.PLAYER_DIE3);
             StartCoroutine(DieTime());
         }
     }
@@ -356,6 +357,7 @@ public class Player : MonoBehaviour
         if (MapManager.instance.Get_MapTileType((int)playerGroundCoordinate.x, (int)playerGroundCoordinate.y) != 0)
         {
             playerAnimator.SetBool("IsFalling", false);
+            SoundManager.instance.Play_SFX(SFX_LIST.PLAYER_LAND);
             yield return new WaitForSeconds(inputDelay * 7 / 6);
             playerState = PlayerState.Idle;
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StageManager : MonoBehaviour, ISceneManagerInterface
 {
@@ -8,6 +9,7 @@ public class StageManager : MonoBehaviour, ISceneManagerInterface
     GameManager gameManager;
     public static StageManager instance;
     [SerializeField] private string nextSceneName;
+    public GameObject menuPanel;
 
     public void Awake()
     {
@@ -44,6 +46,24 @@ public class StageManager : MonoBehaviour, ISceneManagerInterface
         gameManager.SceneChange(nextSceneName);
     }
 
+    public void BGMSoundVoulmeChange(Scrollbar scrollbar)
+    {
+        SoundManager.instance._MainBGMVolume = scrollbar.value;
+    }
 
+    public void SFXSoundVoulmeChange(Scrollbar scrollbar)
+    {
+        SoundManager.instance._MainSFXVolume = scrollbar.value;
+    }
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (menuPanel.activeSelf)
+                menuPanel.SetActive(false);
+            else
+                menuPanel.SetActive(true);
+        }
+    }
 
 }
