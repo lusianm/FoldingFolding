@@ -267,6 +267,15 @@ public class Player : MonoBehaviour
         transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
     }
 
+    public void SetPlayer(int xPos, int yPos)
+    {
+        playerCoordinate = new Vector2(xPos, yPos);
+        playerGravityDirection = PlayerDirection.Down;
+        playerState = PlayerState.Idle;
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+        transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
+    }
+
     //접기 기믹 후 Player Setting
     public void playerFolding(Vector2 foldCoordinate, int direction)
     {
@@ -329,7 +338,7 @@ public class Player : MonoBehaviour
     {
         playerState = PlayerState.DIe;
         playerAnimator.SetTrigger("PlayerDie");
-        //게임 재시작 함수 호출
+        StageManager.instance.Restart();
     }
 
     IEnumerator MovingTime()
