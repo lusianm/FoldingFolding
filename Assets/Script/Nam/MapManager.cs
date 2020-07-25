@@ -290,6 +290,9 @@ public class MapManager : MonoBehaviour
     {
         if (!MapTiles[x, y].myTileType.Equals(TILE_TYPE.노랑_톱니로부숴)) return;
 
+        MapTiles[x, y].originSprite = Resources.Load<Sprite>("PinkTile");
+        MapTiles[x, y].GetComponent<SpriteRenderer>().sprite = MapTiles[x, y].originSprite;
+
         MapTiles[x, y].myTileType = TILE_TYPE.분홍_빈공간;
 
         //박스 터지는 이펙트 재생
