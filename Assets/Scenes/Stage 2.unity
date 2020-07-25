@@ -311,9 +311,9 @@ MonoBehaviour:
 
     0001020'
   objsData:
-  - posIndex: {x: 0, y: 0}
-    objDir: 0
-    objType: 0
+  - posIndex: {x: 4, y: 0}
+    objDir: 3
+    objType: 1
   - posIndex: {x: 1, y: 0}
     objDir: 1
     objType: 0
@@ -323,14 +323,6 @@ MonoBehaviour:
   - posIndex: {x: 3, y: 0}
     objDir: 3
     objType: 0
-  _tilePadValue: 0.33
-  tilePrefab:
-  - {fileID: 5741558859320870339, guid: 737e9be125e9b9c45bc6a4fa2ffc36f5, type: 3}
-  - {fileID: 4445899277994264518, guid: 4a83bf6acea7c814285dd47324484d1a, type: 3}
-  - {fileID: 1035058784712843334, guid: f32951e8091508e4e948d8ae9fd8f092, type: 3}
-  - {fileID: 6071248061755174878, guid: 3c8399c4d37e6c041ac3c917190072ef, type: 3}
-  thornPrefab: {fileID: 6640217367359706276, guid: 902d73c3f35fc4f4d8409fb506f755e7,
-    type: 3}
 --- !u!1 &337728666 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3698267249604265746, guid: 920d7521b94155c45baf75ca956244bd,
@@ -1260,7 +1252,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0512f7762edfb7e4abfacf177336757e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingCoordinate: {x: 0, y: 4}
   nextSceneName: Stage 3
 --- !u!1 &1371630732
 GameObject:
