@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ISceneManagerInterface
 {
-    public void init();
+    void Init();
 }
