@@ -20,8 +20,7 @@ public class Thorn : MonoBehaviour, IInteractableObject
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<Player>().StageClear();
-            StageManager.instance.StageClear();
+            other.GetComponent<Player>().PlayerDie();
         }
     }
 }

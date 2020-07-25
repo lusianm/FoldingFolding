@@ -20,7 +20,8 @@ public class GoalFlag : MonoBehaviour, IInteractableObject
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<Player>().PlayerDie();
+            other.GetComponent<Player>().StageClear();
+            StageManager.instance.StageClear();
         }
     }
 
