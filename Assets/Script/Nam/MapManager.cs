@@ -93,6 +93,7 @@ public class MapManager : MonoBehaviour
     {
         List<int[]> tileArr = null;
         float _tilePadValue = GameManager.instance.tilePadValue;
+        Player player = null;
 
         //비어 있지 않을 경우 입력값으로 고정 생성
         if (!(_inputTileData.Equals("") || _inputTileData == null))
@@ -167,8 +168,8 @@ public class MapManager : MonoBehaviour
                     break;
                 */
                 case Sub_ObjTYPE.플레이어:
-                    subObj.GetComponent<Player>().SetPlayer((int)objsData[i].posIndex.x, (int)objsData[i].posIndex.y, (int)objsData[i].objDir);
-                    subObj.transform.parent = null;
+                    player = subObj.GetComponent<Player>();
+                    player.SetPlayer((int)objsData[i].posIndex.x, (int)objsData[i].posIndex.y, (int)objsData[i].objDir);
                     break;
                 default:
                     subObj.GetComponent<IInteractableObject>().ObjectInit((int)objsData[i].posIndex.x, (int)objsData[i].posIndex.y, (int)objsData[i].objDir);
@@ -185,6 +186,9 @@ public class MapManager : MonoBehaviour
 
         //부모 좌표 초기화 ( 자식 분리 > 부모 좌표 초기화 > 자식 재설정
         Set_MotherVectorZero(motherTr);
+
+        //플레이어의 경우 부모 종속 초기화
+        player.transform.parent = null;
     }
 
     /// <summary>
