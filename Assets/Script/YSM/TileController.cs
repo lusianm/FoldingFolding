@@ -7,6 +7,7 @@ public class TileController : MonoBehaviour
 {
     public static TileController instance = null;
     [HideInInspector] public List<MapTile> selectedTile = new List<MapTile>();
+    [HideInInspector] public Saw saw;
     [HideInInspector] public bool isTileSelected = false;
     [HideInInspector] public bool onMouseClick = false;
     [HideInInspector] public Vector3 startPos;
@@ -70,6 +71,10 @@ public class TileController : MonoBehaviour
         Vector2 playerIndex = Player.playerInstance.GetPlayerCoordinate;
         int playerIndexList = 0;
         bool tileHasPlayer = false;
+        if (saw != null)
+        {
+            saw.IsMoving = false;
+        }
         for (int i = 0; i < selectedTile.Count; i++)
         {
             copiedTile.Add(Instantiate(selectedTile[i].gameObject));
@@ -129,7 +134,19 @@ public class TileController : MonoBehaviour
                         {
                             Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.up * _tilePadValue / 2f, -firstSelectedTile.transform.right, -angle);
                         }
-                    }                        
+                    }
+                    if(saw!=null)
+                    {
+                        if (firstSelectedTile.currY > lastSelectedTile.currY)
+                        {
+
+                            saw.transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.up * _tilePadValue / 2f, -lastSelectedTile.transform.right, -angle);
+                        }
+                        else
+                        {
+                            saw.transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.up * _tilePadValue / 2f, -firstSelectedTile.transform.right, -angle);
+                        }
+                    }
                     break;
                     
                 case PlayerDirection.Down:
@@ -154,7 +171,18 @@ public class TileController : MonoBehaviour
                         {
                             Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.up * _tilePadValue / 2f, -lastSelectedTile.transform.right, angle);
                         }
-                    }                        
+                    }
+                    if(saw!=null)
+                    {
+                        if (firstSelectedTile.currY > lastSelectedTile.currY)
+                        {
+                            saw.transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.up * _tilePadValue / 2f, -firstSelectedTile.transform.right, angle);
+                        }
+                        else
+                        {
+                            saw.transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.up * _tilePadValue / 2f, -lastSelectedTile.transform.right, angle);
+                        }
+                    }
                     break;
                 case PlayerDirection.Left:
                     for (int i = 0; i < selectedTile.Count; i++)
@@ -179,6 +207,17 @@ public class TileController : MonoBehaviour
                             Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.right * _tilePadValue / 2f, lastSelectedTile.transform.up, angle);
                         }
                     }
+                    if (saw != null)
+                    {
+                        if (firstSelectedTile.currX < lastSelectedTile.currX)
+                        {
+                            saw.transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.right * _tilePadValue / 2f, firstSelectedTile.transform.up, angle);
+                        }
+                        else
+                        {
+                            saw.transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.right * _tilePadValue / 2f, lastSelectedTile.transform.up, angle);
+                        }
+                    }
                     break;
                 case PlayerDirection.Right:
                     for (int i = 0; i < copiedTile.Count; i++)
@@ -201,6 +240,17 @@ public class TileController : MonoBehaviour
                         else
                         {
                             Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.right * _tilePadValue / 2f, -firstSelectedTile.transform.up, angle);
+                        }
+                    }
+                    if (saw != null)
+                    {
+                        if (firstSelectedTile.currX < lastSelectedTile.currX)
+                        {
+                            saw.transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.right * _tilePadValue / 2f, -lastSelectedTile.transform.up, angle);
+                        }
+                        else
+                        {
+                            saw.transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.right * _tilePadValue / 2f, -firstSelectedTile.transform.up, angle);
                         }
                     }
                     break;
@@ -284,6 +334,18 @@ public class TileController : MonoBehaviour
                                 Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.up * _tilePadValue / 2f, firstSelectedTile.transform.right, -angle);
                             }
                         }
+                        if (saw != null)
+                        {
+                            if (firstSelectedTile.currY > lastSelectedTile.currY)
+                            {
+                                saw.transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.up * _tilePadValue / 2f, lastSelectedTile.transform.right, -angle);
+                            }
+
+                            else
+                            {
+                                saw.transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.up * _tilePadValue / 2f, firstSelectedTile.transform.right, -angle);
+                            }
+                        }
                         break;
                     case PlayerDirection.Down:
                         for (int i = 0; i < copiedTile.Count; i++)
@@ -310,7 +372,19 @@ public class TileController : MonoBehaviour
                                 Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.up * _tilePadValue / 2f, lastSelectedTile.transform.right, angle);
                             }
                         }
-                            break;
+                        if (saw != null)
+                        {
+                            if (firstSelectedTile.currY > lastSelectedTile.currY)
+                            {
+                                saw.transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.up * _tilePadValue / 2f, firstSelectedTile.transform.right, angle);
+                            }
+
+                            else
+                            {
+                                saw.transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.up * _tilePadValue / 2f, lastSelectedTile.transform.right, angle);
+                            }
+                        }
+                        break;
                     case PlayerDirection.Left:
                         for (int i = 0; i < selectedTile.Count; i++)
                         {
@@ -336,7 +410,19 @@ public class TileController : MonoBehaviour
                                 Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.right * _tilePadValue / 2f, -lastSelectedTile.transform.up, angle);
                             }
                         }
-                            break;
+                        if (saw != null)
+                        {
+                            if (firstSelectedTile.currX < lastSelectedTile.currX)
+                            {
+                                saw.transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.right * _tilePadValue / 2f, -firstSelectedTile.transform.up, angle);
+                            }
+
+                            else
+                            {
+                                saw.transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.right * _tilePadValue / 2f, -lastSelectedTile.transform.up, angle);
+                            }
+                        }
+                        break;
                     case PlayerDirection.Right:
                         for (int i = 0; i < copiedTile.Count; i++)
                         {
@@ -360,7 +446,18 @@ public class TileController : MonoBehaviour
                                 Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.right * _tilePadValue / 2f, firstSelectedTile.transform.up, angle);
                             }
                         }
-                            break;
+                        if (saw != null)
+                        {
+                            if (firstSelectedTile.currX < lastSelectedTile.currX)
+                            {
+                                saw.transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.right * _tilePadValue / 2f, lastSelectedTile.transform.up, angle);
+                            }
+                            else
+                            {
+                                saw.transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.right * _tilePadValue / 2f, firstSelectedTile.transform.up, angle);
+                            }
+                        }
+                        break;
                 }
 
                 yield return null;
@@ -386,6 +483,11 @@ public class TileController : MonoBehaviour
             Destroy(obj);
         }
         isTileSelected = false;
+
+        if (saw != null)
+        {
+            saw.IsMoving = true;
+        }
     }
 
 }

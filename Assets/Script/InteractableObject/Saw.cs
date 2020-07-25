@@ -6,12 +6,15 @@ public class Saw : MonoBehaviour, IInteractableObject
 {
     private int moveDirection;
     private Vector3 targetPosition;
-    private bool IsMoving = false;
+    public bool IsMoving = false;
     public float moveSpeed = 3f;
     private Vector2 sawCoordinate;
     Vector2[] directionVector = { Vector2.down, Vector2.right, Vector2.up, Vector2.left };
 
     public bool isReady = false;
+
+    //여승모
+    bool isSelected = false;
 
     public void ObjectInit(Vector2 coordinate, int direction)
     {
@@ -71,5 +74,27 @@ public class Saw : MonoBehaviour, IInteractableObject
         {
             other.GetComponent<Player>().PlayerDie();
         }
+    }
+
+
+    //여승모
+    private void OnMouseDown()
+    {
+        
+        TileController.instance.onMouseClick = true;
+        TileController.instance.isTileSelected = true;
+    }
+    private void OnMouseOver()
+    {
+        if (TileController.instance.onMouseClick == true && isSelected == false)
+        {
+            isSelected = true;
+            TileController.instance.saw = this;
+        }
+    }
+
+    private void OnMouseUp()
+    {
+        TileController.instance.onMouseClick = false;
     }
 }
