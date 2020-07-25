@@ -40,11 +40,6 @@ public partial class MapTile : MonoBehaviour
             spriteRenderer.color = new Color(0.5f, 0.9f, 1f);
             TileController.instance.selectedTile.Add(this);
         }
-        else if(isSelected==true)
-        {
-            UnSelectTile();
-            TileController.instance.selectedTile.Remove(this);
-        }
     }
 
     private void OnMouseUp()

@@ -24,7 +24,7 @@ public class TileController : MonoBehaviour
             DestroyImmediate(this);
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (isTileSelected == true && isRotating == false) 
         {
