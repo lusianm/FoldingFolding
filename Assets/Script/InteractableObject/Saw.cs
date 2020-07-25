@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Saw : MonoBehaviour, IInteractableObject
 {
-    //속도 = 거리/시간
     private int moveDirection;
     private Vector3 targetPosition;
     private bool IsMoving = false;
@@ -44,7 +43,7 @@ public class Saw : MonoBehaviour, IInteractableObject
             {
                 if (MapManager.instance.Get_MapTileType((int)sawCoordinate.x, (int)sawCoordinate.y) == 3)
                 {
-                    //타일 변경 요청
+                    MapManager.instance.SetTile_Passible((int)sawCoordinate.x, (int)sawCoordinate.y);
                 }
                 Vector2 targetCoordinate = sawCoordinate + directionVector[moveDirection];
                 int targetTileType = MapManager.instance.Get_MapTileType((int)targetCoordinate.x, (int)targetCoordinate.y);
