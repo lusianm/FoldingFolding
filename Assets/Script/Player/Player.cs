@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float inputDelay = 1f;
     [SerializeField] private float fallingSpeed = 1f;
     [SerializeField] Vector2 PlayerInitialSetCoordinate;
+    bool stageClear = false;
 
     public static Player playerInstance;
     private void Awake()
@@ -312,7 +313,7 @@ public class Player : MonoBehaviour
 
     public void PlayerDie()
     {
-        if (playerState != PlayerState.StageClear)
+        if (!stageClear)
         {
             playerState = PlayerState.DIe;
             playerAnimator.SetTrigger("PlayerDie");
@@ -323,6 +324,8 @@ public class Player : MonoBehaviour
     public void StageClear()
     {
         playerState = PlayerState.StageClear;
+        stageClear = true;
+
     }
 
     IEnumerator MovingTime()
