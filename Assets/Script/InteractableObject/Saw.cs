@@ -56,13 +56,11 @@ public class Saw : MonoBehaviour, IInteractableObject
                 {
                     moveDirection = (moveDirection + 2) % 4;
                 }
-
             }
             else
             {
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-            }
-                
+            }                
         }
     }
     private void OnTriggerEnter(Collider other)
