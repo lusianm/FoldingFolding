@@ -331,6 +331,11 @@ public class Player : MonoBehaviour
         playerAnimator.SetTrigger("PlayerDie");
         StartCoroutine(DieTime());
     }
+    
+    public void StageClear()
+    {
+        playerState = PlayerState.StageClear;
+    }
 
     IEnumerator MovingTime()
     {

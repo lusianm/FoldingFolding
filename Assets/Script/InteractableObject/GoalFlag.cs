@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Thorn : MonoBehaviour, IInteractableObject
+public class GoalFlag : MonoBehaviour, IInteractableObject
 {
     public void ObjectInit(Vector2 coordinate, int direction)
     {
@@ -20,8 +20,8 @@ public class Thorn : MonoBehaviour, IInteractableObject
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<Player>().StageClear();
-            StageManager.instance.StageClear();
+            other.GetComponent<Player>().PlayerDie();
         }
     }
+
 }
