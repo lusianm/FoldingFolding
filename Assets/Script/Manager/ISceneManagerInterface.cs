@@ -6,3 +6,7 @@ public interface ISceneManagerInterface
 {
     void Init();
 }
+//public abstract class ISceneManagerInterface : MonoBehaviour
+//{
+//    public abstract void Init();
+//}
