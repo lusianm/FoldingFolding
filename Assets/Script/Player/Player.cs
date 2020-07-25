@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField] PlayerState playerState;
 
     //Player의 칸의 좌표
-    Vector2 playerCoordinate;
+    [SerializeField] Vector2 playerCoordinate;
     Vector2[] directionVector = { Vector2.down, Vector2.right, Vector2.up, Vector2.left };
     [SerializeField] private SpriteRenderer spriteRenderer;
     private Animator playerAnimator;
@@ -254,6 +254,7 @@ public class Player : MonoBehaviour
     {
         spriteRenderer = this.GetComponentInChildren<SpriteRenderer>();
         playerAnimator = this.GetComponentInChildren<Animator>();
+        playerAnimator.Play("Idle", -1, 0f);
         playerState = PlayerState.Idle;
         playerGravityDirection = PlayerDirection.Down;
     }
@@ -280,7 +281,8 @@ public class Player : MonoBehaviour
     public void playerFolding(Vector2 foldCoordinate, int direction)
     {
         playerCoordinate = foldCoordinate;
-        transform.rotation = Quaternion.Euler(0, 0, transform.rotation.z);
+        Debug.Log("Before Rotation Z : " + transform.rotation.z);
+        transform.rotation = Quaternion.Euler(0, 0, ((int)playerGravityDirection+2) * 90f);
         int convertedDirection = direction;
         ////UP
         //if (direction == 0)
@@ -296,6 +298,8 @@ public class Player : MonoBehaviour
         //    convertedDirection = 1;
         //else
         //    Debug.LogError("Awrong Direction In playerFolding");
+        Debug.Log("Folding Direction :" + direction + "\nValeu : " + ((int)playerGravityDirection - convertedDirection + 4) % 4);
+        
 
         switch (((int)playerGravityDirection - convertedDirection + 4) % 4) {
             case 0:
@@ -338,7 +342,7 @@ public class Player : MonoBehaviour
     {
         playerState = PlayerState.DIe;
         playerAnimator.SetTrigger("PlayerDie");
-        StageManager.instance.Restart();
+        StartCoroutine(DieTime());
     }
 
     IEnumerator MovingTime()
@@ -367,5 +371,11 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(inputDelay * 5 / 6);
         if (playerState == PlayerState.Falling)
             CheckGround();
+    }
+
+    IEnumerator DieTime()
+    {
+        yield return new WaitForSeconds(1f);
+        StageManager.instance.Restart();
     }
 }
