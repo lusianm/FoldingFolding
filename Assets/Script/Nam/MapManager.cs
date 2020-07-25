@@ -10,8 +10,31 @@ public enum TILE_TYPE
     노랑_톱니로부숴
 }
 
+public enum Sub_ObjTYPE
+{
+    가시,
+    플레이어,
+}
+
+public enum Sub_Direction
+{
+    UP,
+    RIGHT,
+    DOWN,
+    LEFT
+}
+
+[System.Serializable]
+public struct SubObjData
+{
+    public Vector2 posIndex;
+    public Sub_Direction objDir;
+    public Sub_ObjTYPE objType;
+}
+
 public class MapManager : MonoBehaviour
 {
+    [Header("Map Data")]
     /// <summary>
     /// 전체 맵 타일 배열
     /// </summary>
@@ -27,10 +50,23 @@ public class MapManager : MonoBehaviour
     /// </summary>
     public int maxy;
 
+    /// <summary>
+    /// 미리 생성할 맵 타일 속성값 문자열
+    /// </summary>
+    [TextArea(3, 7)]
+    public string _inputTileData;
+
+    /// <summary>
+    /// 맵에 배치할 보조 오브젝트들의 리스트 (가시, 플레이어, ...)
+    /// </summary>
+    public List<SubObjData> objsData;
+
+    [Header("Visual Attribute")]
     [Range(0, 1)]
     [SerializeField] float _tilePadValue = 0.33f;
 
     public MapTile[] tilePrefab;
+    public GameObject thornPrefab;
 
     public static MapManager instance;
     private void Awake()
@@ -39,11 +75,13 @@ public class MapManager : MonoBehaviour
     }
 
     /////// 임의로 타일을 생성하고자 활성화/비활성화로 처리해두었습니다.   ///////////////////
+    /////// 고정된 값으로 생성하기 위해 _inputTileData 필드를 사용해주세요.
     private void OnEnable()
     {
         SetInitialize_MapTiles();
 
         DebugLog_MapTiles();
+        TileController.instance._tilePadValue = _tilePadValue;
     }
 
     private void OnDisable()
@@ -57,9 +95,20 @@ public class MapManager : MonoBehaviour
     /// <summary>
     /// 초기 맵을 생성합니다.
     /// </summary>
-    private void SetInitialize_MapTiles()
+    public void SetInitialize_MapTiles()
     {
-        //MapTiles = new int[maxx, maxy];
+        List<int[]> tileArr = null;
+
+        //비어 있지 않을 경우 입력값으로 고정 생성
+        if (!(_inputTileData.Equals("") || _inputTileData == null))
+        {
+            tileArr = new List<int[]>();
+            tileArr = GetParse_InputTileData();
+
+            maxy = tileArr.Count;
+            maxx = tileArr[0].Length;
+        }
+
         MapTiles = new MapTile[maxx, maxy];
 
         GameObject motherTr = new GameObject();
@@ -68,9 +117,17 @@ public class MapManager : MonoBehaviour
         {
             for(int j = 0; j < maxx; j++)
             {
+                int randTileIndex;
+
                 //임시로 랜덤 타일 생성
-                int randTileIndex = Random.Range(0, (int)TILE_TYPE.노랑_톱니로부숴 + 1);
-                if (randTileIndex == (int)TILE_TYPE.노랑_톱니로부숴 + 1) randTileIndex = (int)TILE_TYPE.노랑_톱니로부숴;
+                if (tileArr == null)
+                {
+                    randTileIndex = Random.Range(0, (int)TILE_TYPE.노랑_톱니로부숴 + 1);
+                    if (randTileIndex == (int)TILE_TYPE.노랑_톱니로부숴 + 1) randTileIndex = (int)TILE_TYPE.노랑_톱니로부숴;
+                }
+                //입력한 타일 데이터 호출
+                else
+                    randTileIndex = tileArr[i][j];
 
                 //오브젝트 생성 및 위치 조정
                 GameObject obj = Instantiate(tilePrefab[randTileIndex].gameObject);
@@ -90,12 +147,77 @@ public class MapManager : MonoBehaviour
             }
         }
 
+        #region 서브 오브젝트 배치
+        for (int i = 0; i < objsData.Count; i++)
+        {
+            GameObject target = MapTiles[(int)objsData[i].posIndex.x, (int)objsData[i].posIndex.y].gameObject;
+
+            //오브젝트 생성
+            GameObject subObj = null;
+            switch (objsData[i].objType)
+            {
+                case Sub_ObjTYPE.가시:
+                    subObj = Instantiate(thornPrefab);
+                    break;
+                default:
+
+                    break;
+            }
+            if (subObj == null) continue;
+
+            subObj.transform.parent = target.transform;
+
+            //방향성 설정
+            switch(objsData[i].objDir)
+            {
+                case Sub_Direction.UP:
+
+                    break;
+                case Sub_Direction.RIGHT:
+
+                    break;
+                case Sub_Direction.DOWN:
+
+                    break;
+                case Sub_Direction.LEFT:
+
+                    break;
+            }
+        }
+        #endregion
+
         //생성한 타일들을 중심 좌표로 보정 이동
         float corrX = _tilePadValue * (maxx - 1) * 0.5f;
         float corrY = _tilePadValue * (maxy - 1) * 0.5f;
 
         motherTr.transform.Translate(new Vector3(-corrX, corrY, 0), Space.World);
 
+    }
+
+    /// <summary>
+    /// 문자열로 입력한 타일 속성들을 배열로 반환합니다.
+    /// </summary>
+    private List<int[]> GetParse_InputTileData()
+    {
+        List<int[]> result = new List<int[]>();
+
+        string[] lines = _inputTileData.Split('\n');
+        for(int i = 0; i < lines.Length; i++)
+        {
+            if (lines.Equals("") || lines == null) break;
+
+            //Debug.Log("Line " + i + " : " + lines[i]);
+
+            char[] line = lines[i].ToCharArray();
+            int[] tempArr = new int[line.Length];
+
+            for (int j = 0; j < line.Length; j++)
+                tempArr[j] = int.Parse(line[j].ToString());
+
+            result.Add(tempArr);
+        }
+
+        return result;
     }
 
     /// <summary>

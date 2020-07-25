@@ -4,16 +4,19 @@ using UnityEngine;
 
 enum Direction
 {
-    UP, DOWN, LEFT, RIGHT
+    UP, RIGHT, DOWN, LEFT
 }
 public class TileController : MonoBehaviour
 {
     public static TileController instance = null;
-    [HideInInspector] public List<Tile> selectedTile = new List<Tile>();
+    //[HideInInspector] public List<Tile> selectedTile = new List<Tile>();
+    [HideInInspector] public List<MapTile> selectedTile = new List<MapTile>();
     [HideInInspector] public bool onMouseClick = false;
     [HideInInspector] public Vector3 startPos;
     [HideInInspector] public Vector3 endPos;
+    [HideInInspector] public float _tilePadValue = 0.33f;
     bool isRotating = false;
+    
     private void Awake()
     {
         if (instance == null)
@@ -22,7 +25,6 @@ public class TileController : MonoBehaviour
             DestroyImmediate(this);
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         if (selectedTile.Count > 0 && isRotating == false)
@@ -52,14 +54,17 @@ public class TileController : MonoBehaviour
 
     IEnumerator RotateObject(Direction dir)
     {
-        Tile lastSelectedTile = selectedTile[selectedTile.Count - 1];
-        Tile firstSelectedTile = selectedTile[0];
+        //Tile lastSelectedTile = selectedTile[selectedTile.Count - 1];
+        //Tile firstSelectedTile = selectedTile[0];
+        MapTile lastSelectedTile = selectedTile[selectedTile.Count - 1];
+        MapTile firstSelectedTile = selectedTile[0];
         List<GameObject> copiedTile = new List<GameObject>();
 
         for (int i = 0; i < selectedTile.Count; i++)
         {
             copiedTile.Add(Instantiate(selectedTile[i].gameObject));
-            Tile tile = copiedTile[i].GetComponent<Tile>();
+            //Tile tile = copiedTile[i].GetComponent<Tile>();
+            MapTile tile = copiedTile[i].GetComponent<MapTile>();
             if (tile != null)
             {
                 tile.SetTileInfo(selectedTile[i]);
@@ -85,37 +90,37 @@ public class TileController : MonoBehaviour
                 case Direction.UP:
                     for (int i = 0; i < copiedTile.Count; i++)
                     {
-                        if (firstSelectedTile.y > lastSelectedTile.y)
-                            copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.up * 0.07f, -lastSelectedTile.transform.right, -angle);
+                        if (firstSelectedTile.currY > lastSelectedTile.currY)
+                            copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.up * _tilePadValue / 2f, -lastSelectedTile.transform.right, -angle);
                         else
-                            copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.up * 0.07f, -firstSelectedTile.transform.right, -angle);
+                            copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.up * _tilePadValue / 2f, -firstSelectedTile.transform.right, -angle);
                     }
                     break;
                 case Direction.DOWN:
                     for (int i = 0; i < copiedTile.Count; i++)
                     {
-                        if (firstSelectedTile.y > lastSelectedTile.y)
-                            copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.up * 0.07f, -firstSelectedTile.transform.right, angle);
+                        if (firstSelectedTile.currY > lastSelectedTile.currY)
+                            copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.up * _tilePadValue / 2f, -firstSelectedTile.transform.right, angle);
                         else
-                            copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.up * 0.07f, -lastSelectedTile.transform.right, angle);
+                            copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.up * _tilePadValue / 2f, -lastSelectedTile.transform.right, angle);
                     }
                     break;
                 case Direction.LEFT:
                     for (int i = 0; i < selectedTile.Count; i++)
                     {
-                        if (firstSelectedTile.x < lastSelectedTile.x)
-                            copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.right * 0.07f, firstSelectedTile.transform.up, angle);
+                        if (firstSelectedTile.currX < lastSelectedTile.currX)
+                            copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.right * _tilePadValue / 2f, firstSelectedTile.transform.up, angle);
                         else
-                            copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.right * 0.07f, lastSelectedTile.transform.up, angle);
+                            copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.right * _tilePadValue / 2f, lastSelectedTile.transform.up, angle);
                     }
                     break;
                 case Direction.RIGHT:
                     for (int i = 0; i < copiedTile.Count; i++)
                     {
-                        if (firstSelectedTile.x < lastSelectedTile.x)
-                            copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.right * 0.07f, -lastSelectedTile.transform.up, angle);
+                        if (firstSelectedTile.currX < lastSelectedTile.currX)
+                            copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.right * _tilePadValue / 2f, -lastSelectedTile.transform.up, angle);
                         else
-                            copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.right * 0.07f, -firstSelectedTile.transform.up, angle);
+                            copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.right * _tilePadValue / 2f, -firstSelectedTile.transform.up, angle);
                     }
                     break;
             }
@@ -125,19 +130,22 @@ public class TileController : MonoBehaviour
 
         isRotating = false;
         bool backRoate = false;
-        List<Tile> hittedTileList = new List<Tile>();
+        //List<Tile> hittedTileList = new List<Tile>();
+        List<MapTile> hittedTileList = new List<MapTile>();
         for (int i = 0; i < copiedTile.Count; i++)
         {
-            Tile tile = copiedTile[i].GetComponent<Tile>();
+            //Tile tile = copiedTile[i].GetComponent<Tile>();
+            MapTile tile = copiedTile[i].GetComponent<MapTile>();
             RaycastHit hit;
             Debug.DrawRay(copiedTile[i].transform.position + Vector3.forward, Vector3.back, Color.red, 2f);
             if (Physics.Raycast(copiedTile[i].transform.position + Vector3.forward, Vector3.back * 2, out hit, 2))
             {
-                Tile hitTile = hit.transform.GetComponent<Tile>();
+                //Tile hitTile = hit.transform.GetComponent<Tile>();
+                MapTile hitTile = hit.transform.GetComponent<MapTile>();
                 if (hitTile != null)
                 {
-                    Debug.Log(hitTile.name + " -> " + hitTile.tileValue);
-                    if (hitTile.tileValue == TileValue.BLACK || hitTile.tileValue == TileValue.YELLOW)
+                    //if (hitTile.tileValue == TileValue.BLACK || hitTile.tileValue == TileValue.YELLOW)
+                    if (hitTile.myTileType == TILE_TYPE.검정_변형불가 || hitTile.myTileType == TILE_TYPE.노랑_톱니로부숴)
                     {
                         backRoate = true;
                         break;
@@ -167,37 +175,37 @@ public class TileController : MonoBehaviour
                     case Direction.UP:
                         for (int i = 0; i < copiedTile.Count; i++)
                         {
-                            if (firstSelectedTile.y > lastSelectedTile.y)
-                                copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.up * 0.07f, lastSelectedTile.transform.right, -angle);
+                            if (firstSelectedTile.currY > lastSelectedTile.currY)
+                                copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.up * _tilePadValue/2f, lastSelectedTile.transform.right, -angle);
                             else
-                                copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.up * 0.07f, firstSelectedTile.transform.right, -angle);
+                                copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.up * _tilePadValue / 2f, firstSelectedTile.transform.right, -angle);
                         }
                         break;
                     case Direction.DOWN:
                         for (int i = 0; i < copiedTile.Count; i++)
                         {
-                            if (firstSelectedTile.y > lastSelectedTile.y)
-                                copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.up * 0.07f, firstSelectedTile.transform.right, angle);
+                            if (firstSelectedTile.currY > lastSelectedTile.currY)
+                                copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.up * _tilePadValue / 2f, firstSelectedTile.transform.right, angle);
                             else
-                                copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.up * 0.07f, lastSelectedTile.transform.right, angle);
+                                copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.up * _tilePadValue / 2f, lastSelectedTile.transform.right, angle);
                         }
                         break;
                     case Direction.LEFT:
                         for (int i = 0; i < selectedTile.Count; i++)
                         {
-                            if (firstSelectedTile.x < lastSelectedTile.x)
-                                copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.right * 0.07f, -firstSelectedTile.transform.up, angle);
+                            if (firstSelectedTile.currX < lastSelectedTile.currX)
+                                copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.right * _tilePadValue / 2f, -firstSelectedTile.transform.up, angle);
                             else
-                                copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.right * 0.07f, -lastSelectedTile.transform.up, angle);
+                                copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.right * _tilePadValue / 2f, -lastSelectedTile.transform.up, angle);
                         }
                         break;
                     case Direction.RIGHT:
                         for (int i = 0; i < copiedTile.Count; i++)
                         {
-                            if (firstSelectedTile.x < lastSelectedTile.x)
-                                copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.right * 0.07f, lastSelectedTile.transform.up, angle);
+                            if (firstSelectedTile.currX < lastSelectedTile.currX)
+                                copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.right * _tilePadValue / 2f, lastSelectedTile.transform.up, angle);
                             else
-                                copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.right * 0.07f, firstSelectedTile.transform.up, angle);
+                                copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.right * _tilePadValue / 2f, firstSelectedTile.transform.up, angle);
                         }
                         break;
                 }
@@ -207,9 +215,11 @@ public class TileController : MonoBehaviour
         }
         else
         {
+            
             for (int i = 0; i < hittedTileList.Count; i++)
             {
-                hittedTileList[i].SetTileInfo(copiedTile[i].GetComponent<Tile>());
+                //hittedTileList[i].SetTileInfo(copiedTile[i].GetComponent<Tile>());
+                hittedTileList[i].SetTileInfo(copiedTile[i].GetComponent<MapTile>());
             }
 
         }
