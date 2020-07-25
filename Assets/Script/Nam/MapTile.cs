@@ -8,7 +8,7 @@ public partial class MapTile : MonoBehaviour
     public int currY;
     public TILE_TYPE myTileType;
     bool isSelected = false;
-    Sprite originSprite;
+    public Sprite originSprite;
     Color originColor;
     SpriteRenderer spriteRenderer;
     private void Awake()
@@ -52,9 +52,17 @@ public partial class MapTile : MonoBehaviour
         //tileValue = tile.tileValue;
         myTileType = tile.myTileType;
         spriteRenderer.sprite = tile.originSprite;
-        for(int i=0;i<tile.transform.childCount;i++)
+        originSprite = spriteRenderer.sprite;
+        for (int i=0;i<tile.transform.childCount;i++)
         {
             tile.transform.GetChild(i).parent = transform;
+        }
+        if(tile.transform.childCount==0)
+        {
+            for(int i=0;i<transform.childCount;i++)
+            {
+                Destroy(transform.GetChild(i).gameObject);
+            }
         }
     }
 
