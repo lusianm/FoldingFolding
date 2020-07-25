@@ -167,11 +167,19 @@ public class MapManager : MonoBehaviour
             subObj.transform.parent = target.transform;
             subObj.transform.localPosition = Vector3.zero;
 
-            //방향성 설정
-            float[,] dirCorr = { { 0, 0.047f }, { 0.054f, 0 }, { 0, -0.03f }, { -0.042f, 0 } };
-            int dirIndex = (int)objsData[i].objDir;
-            subObj.transform.localPosition = new Vector3(dirCorr[dirIndex, 0], dirCorr[dirIndex, 1], 0);
-            subObj.transform.localEulerAngles = new Vector3(0, 0, 180 - 90 * (int)objsData[i].objDir);
+            //방향성 설정 : 가시만
+            switch (objsData[i].objType)
+            {
+                case Sub_ObjTYPE.가시:
+                    float[,] dirCorr = { { 0, 0.047f }, { 0.054f, 0 }, { 0, -0.03f }, { -0.042f, 0 } };
+                    int dirIndex = (int)objsData[i].objDir;
+                    subObj.transform.localPosition = new Vector3(dirCorr[dirIndex, 0], dirCorr[dirIndex, 1], 0);
+                    subObj.transform.localEulerAngles = new Vector3(0, 0, 180 - 90 * (int)objsData[i].objDir);
+                    break;
+                default:
+
+                    break;
+            }
         }
         #endregion
 
