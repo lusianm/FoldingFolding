@@ -2,8 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerDirection
+{
+    Up = 0, Right = 1, Down = 2, Left = 3
+}
 public class Player : MonoBehaviour
 {
+    PlayerDirection[] playerDirectionEnum = { PlayerDirection.Up, PlayerDirection.Right, PlayerDirection.Down, PlayerDirection.Left };
+    [SerializeField] PlayerDirection playerGravityDirection;
+    public enum PlayerState
+    {
+        Idle, Move, Crouching, Jump, Falling, DIe, Damaged, StageClear
+    }
+    [SerializeField] PlayerState playerState;
+
     //Player의 칸의 좌표
     Vector2 playerCoordinate;
     Vector2[] directionVector = { Vector2.down, Vector2.right, Vector2.up, Vector2.left };
@@ -18,17 +30,6 @@ public class Player : MonoBehaviour
         playerInstance = this;
     }
 
-    public enum PlayerDirection
-    {
-        Up = 0, Right = 1, Down = 2, Left = 3
-    }
-    PlayerDirection[] playerDirectionEnum = { PlayerDirection.Up, PlayerDirection.Right, PlayerDirection.Down, PlayerDirection.Left };
-    [SerializeField] PlayerDirection playerGravityDirection;
-    public enum PlayerState
-    {
-        Idle, Move, Crouching, Jump, Falling, DIe, Damaged, StageClear
-    }
-    [SerializeField] PlayerState playerState;
 
     //Player가 밟고 있는 칸의 좌표
     [SerializeField] public Vector2 playerGroundCoordinate => playerCoordinate + directionVector[(int)playerGravityDirection];
