@@ -53,17 +53,24 @@ public partial class MapTile : MonoBehaviour
         myTileType = tile.myTileType;
         spriteRenderer.sprite = tile.originSprite;
         originSprite = spriteRenderer.sprite;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if(transform.GetChild(i).tag!="Finish")
+                Destroy(transform.GetChild(i).gameObject);
+        }
         for (int i=0;i<tile.transform.childCount;i++)
         {
-            tile.transform.GetChild(i).parent = transform;
+            if(tile.transform.GetChild(i).tag!="Finish")
+                tile.transform.GetChild(i).parent = transform;
         }
-        if(tile.transform.childCount==0)
-        {
-            for(int i=0;i<transform.childCount;i++)
-            {
-                Destroy(transform.GetChild(i).gameObject);
-            }
-        }
+    }
+
+    public void CopyTileInfo(MapTile tile)
+    {
+        //tileValue = tile.tileValue;
+        myTileType = tile.myTileType;
+        spriteRenderer.sprite = tile.originSprite;
+        originSprite = spriteRenderer.sprite;
     }
 
     public void UnSelectTile()
