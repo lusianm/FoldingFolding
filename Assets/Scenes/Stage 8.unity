@@ -254,6 +254,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21bc4e35af4c71b46a27c2586d5d39e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tutorialBoard: {fileID: 0}
+  _prevButton: {fileID: 0}
+  _nextButton: {fileID: 0}
 --- !u!1 &201482489
 GameObject:
   m_ObjectHideFlags: 0
@@ -1153,7 +1156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0512f7762edfb7e4abfacf177336757e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: ChapterSelect
+  nextSceneName: Endding
 --- !u!1 &1371630732
 GameObject:
   m_ObjectHideFlags: 0
