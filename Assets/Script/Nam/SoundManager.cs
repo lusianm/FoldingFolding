@@ -13,13 +13,15 @@ public enum BGM_LIST
 
 public enum SFX_LIST
 {
-    MENU_CLICK,
+    PLAYER_MOVE,
     PLAYER_JUMP,
     PLAYER_DIE_1,
     PLAYER_DIE_2,
     BLOCK_ALERT,
     DESTROY_BLOCK,
-    FOLD
+    FOLD,
+    MENU_CLICK_1,
+    MENU_CLICK_2
 }
 
 public class SoundManager : MonoBehaviour
@@ -55,11 +57,13 @@ public class SoundManager : MonoBehaviour
     /// 특정 BGM을 재생합니다.
     /// </summary>
     /// <param name="target">재생할 BGM 용도</param>
-    public void Play_BGM(BGM_LIST target)
+    /// <param name="vol">볼륨</param>
+    public void Play_BGM(BGM_LIST target, float vol = 0.2f)
     {
         if ((int)target >= _bgmClips.Length) return;
 
         if (_bgmSource.isPlaying) _bgmSource.Stop();
+        _bgmSource.volume = vol;
         _bgmSource.clip = _bgmClips[(int)target];
 
         //우승 BGM에서 반복 제거
@@ -73,11 +77,12 @@ public class SoundManager : MonoBehaviour
     /// 특정 효과음을 재생합니다.
     /// </summary>
     /// <param name="target">재생할 SFX 용도</param>
-    public void Play_SFX(SFX_LIST target)
+    /// <param name="vol">볼륨</param>
+    public void Play_SFX(SFX_LIST target, float vol = 1f)
     {
         if ((int)target >= _sfxClips.Length) return;
-
-        _sfxSource.PlayOneShot(_sfxClips[(int)target]);
+        
+        _sfxSource.PlayOneShot(_sfxClips[(int)target], vol);
     }
 
     //임시 사운드 퀵 플레이어
