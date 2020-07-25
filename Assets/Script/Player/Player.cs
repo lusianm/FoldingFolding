@@ -256,24 +256,15 @@ public class Player : MonoBehaviour
         spriteRenderer = this.GetComponentInChildren<SpriteRenderer>();
         playerAnimator = this.GetComponentInChildren<Animator>();
         playerAnimator.Play("Idle", -1, 0f);
-        playerState = PlayerState.Idle;
-        playerGravityDirection = PlayerDirection.Down;
-    }
-
-    public void SetPlayer()
-    {
-        playerCoordinate = PlayerInitialSetCoordinate;
-        playerGravityDirection = PlayerDirection.Down;
-        playerState = PlayerState.Idle;
-        transform.rotation = Quaternion.Euler(0, 0, 0);
-        transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
     }
 
     //Player Setting 함수
     public void SetPlayer(int xPos, int yPos, int direction)
     {
         playerCoordinate = new Vector2(xPos, yPos);
+        Debug.Log("Set Player Direction " + direction);
         playerGravityDirection = playerDirectionEnum[direction];
+        Debug.Log("Set Player Gravity Direction " + playerGravityDirection);
         playerState = PlayerState.Idle;
         transform.rotation = Quaternion.Euler(0, 0, ((int)playerGravityDirection + 2) * -90f);
         transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);

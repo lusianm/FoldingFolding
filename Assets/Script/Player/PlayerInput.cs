@@ -19,8 +19,6 @@ public class PlayerInput : MonoBehaviour
         //마우스 클릭 이 되지 않았을 경우 동작
         if(!TileController.instance.isTileSelected)
         {
-            if (Input.GetKeyDown(KeyCode.N))
-                player.SetPlayer();
             if (Input.GetKeyDown(KeyCode.R))
                 player.PlayerDie();
 
