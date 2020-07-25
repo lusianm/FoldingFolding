@@ -127,11 +127,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e20c232a36eaf40468b204ec6f13f3be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerGravityDirection: 0
+  playerState: 0
   spriteRenderer: {fileID: 963197176}
   inputDelay: 1
   PlayerInitialSetCoordinate: {x: 0, y: 0}
-  playerGravityDirection: 0
-  playerState: 0
 --- !u!114 &6493859390856565533
 MonoBehaviour:
   m_ObjectHideFlags: 0
