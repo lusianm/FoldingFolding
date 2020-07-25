@@ -297,6 +297,14 @@ public class Player : MonoBehaviour
         playerGravityDirection = PlayerDirection.Down;
     }
 
+    public void SetPlayer()
+    {
+        playerCoordinate = PlayerInitialSetCoordinate;
+        playerGravityDirection = PlayerDirection.Down;
+        playerState = PlayerState.Idle;
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+        transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
+    }
 
     //접기 기믹 후 Player Setting
     public void playerFolding(Vector2 foldCoordinate, int direction)
@@ -337,14 +345,6 @@ public class Player : MonoBehaviour
 
     // Update is called once per frame
 
-    public void SetPlayer()
-    {
-        playerCoordinate = PlayerInitialSetCoordinate;
-        playerGravityDirection = PlayerDirection.Down;
-        playerState = PlayerState.Idle;
-        transform.rotation = Quaternion.Euler(0, 0, 0);
-        transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
-    }
 
     void CheckGround()
     {
@@ -358,7 +358,12 @@ public class Player : MonoBehaviour
             StartCoroutine(FaillingTime());
             //바닥으로 이동
         }
+    }
 
+    public void PlayerDie()
+    {
+        playerState = PlayerState.DIe;
+        //게임 재시작 함수 호출
     }
 
     IEnumerator MovingTime()
