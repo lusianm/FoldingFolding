@@ -7,6 +7,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public Transform[] prefabList;
+    public GameObject[] tilePrefabList;
+    [Range(0, 1)]
+    public float tilePadValue = 0.33f;
+
     [SerializeField] private ISceneManagerInterface sceneManager;
     // Start is called before the first frame update
     private void Awake()

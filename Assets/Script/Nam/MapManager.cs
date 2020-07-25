@@ -63,15 +63,6 @@ public class MapManager : MonoBehaviour
     /// </summary>
     public List<SubObjData> objsData;
 
-    [Header("Visual Attribute")]
-    [Range(0, 1)]
-    [SerializeField] float _tilePadValue = 0.33f;
-
-    public MapTile[] tilePrefab;
-    public GameObject thornPrefab;
-    public GameObject flagPrefab;
-    public GameObject sawPrefab;
-
     public static MapManager instance;
     private void Awake()
     {
@@ -101,6 +92,7 @@ public class MapManager : MonoBehaviour
     public void SetInitialize_MapTiles()
     {
         List<int[]> tileArr = null;
+        float _tilePadValue = GameManager.instance.tilePadValue;
 
         //비어 있지 않을 경우 입력값으로 고정 생성
         if (!(_inputTileData.Equals("") || _inputTileData == null))
@@ -133,7 +125,7 @@ public class MapManager : MonoBehaviour
                     randTileIndex = tileArr[i][j];
 
                 //오브젝트 생성 및 위치 조정
-                GameObject obj = Instantiate(tilePrefab[randTileIndex].gameObject);
+                GameObject obj = Instantiate(GameManager.instance.tilePrefabList[randTileIndex]);
                 obj.transform.Translate(new Vector3(j * _tilePadValue, i * -_tilePadValue, 0), Space.World);
                 //obj.name = "tile_" + i + "x" + j;
                 obj.transform.parent = motherTr.transform;
@@ -156,38 +148,28 @@ public class MapManager : MonoBehaviour
             GameObject target = MapTiles[(int)objsData[i].posIndex.x, (int)objsData[i].posIndex.y].gameObject;
 
             //오브젝트 생성
-            GameObject subObj = null;
-            switch (objsData[i].objType)
-            {
-                case Sub_ObjTYPE.가시:
-                    subObj = Instantiate(thornPrefab);
-                    break;
-                case Sub_ObjTYPE.깃발:
-                    subObj = Instantiate(flagPrefab);
-                    break;
-                case Sub_ObjTYPE.톱니:
-                    subObj = Instantiate(sawPrefab);
-                    break;
-                default:
-
-                    break;
-            }
+            GameObject subObj = Instantiate(GameManager.instance.prefabList[(int)objsData[i].objType].gameObject);
             if (subObj == null) continue;
 
             subObj.transform.parent = target.transform;
             subObj.transform.localPosition = Vector3.zero;
 
-            //방향성 설정 : 가시만
             switch (objsData[i].objType)
             {
+                /*
+                //방향성 설정 : 가시만
                 case Sub_ObjTYPE.가시:
                     float[,] dirCorr = { { 0, 0.071f }, { 0.054f, 0 }, { 0, -0.03f }, { -0.034f, 0 } };
                     int dirIndex = (int)objsData[i].objDir;
                     subObj.transform.localPosition = new Vector3(dirCorr[dirIndex, 0], dirCorr[dirIndex, 1], 0);
                     subObj.transform.localEulerAngles = new Vector3(0, 0, 180 - 90 * (int)objsData[i].objDir);
+                    
+                    break;
+                */
+                case Sub_ObjTYPE.플레이어:
+                    subObj.GetComponent<Player>().SetPlayer((int)objsData[i].posIndex.x, (int)objsData[i].posIndex.y, (int)objsData[i].objDir);
                     break;
                 default:
-
                     subObj.GetComponent<IInteractableObject>().ObjectInit((int)objsData[i].posIndex.x, (int)objsData[i].posIndex.y, (int)objsData[i].objDir);
                     break;
             }
