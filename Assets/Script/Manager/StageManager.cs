@@ -8,6 +8,7 @@ public class StageManager : MonoBehaviour, ISceneManagerInterface
     GameManager gameManager;
     public static StageManager instance;
     [SerializeField] private Vector2 StartingCoordinate;
+    [SerializeField] private string nextSceneName;
 
     public void Awake()
     {
@@ -30,6 +31,11 @@ public class StageManager : MonoBehaviour, ISceneManagerInterface
     public void Restart()
     {
         gameManager.SceneRestart();
+    }
+
+    public void StageClear()
+    {
+        gameManager.SceneChange(nextSceneName);
     }
 
 }

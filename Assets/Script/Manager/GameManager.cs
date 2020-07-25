@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     public void SceneChange(string sceneName)
     {
-        SceneManager.LoadScene(SceneManager.GetSceneByName(sceneName).buildIndex);
+        SceneManager.LoadScene(sceneName);
     }
 
     public void Start()
