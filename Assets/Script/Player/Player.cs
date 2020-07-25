@@ -281,23 +281,10 @@ public class Player : MonoBehaviour
     public void playerFolding(Vector2 foldCoordinate, int direction)
     {
         playerCoordinate = foldCoordinate;
+        transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
         Debug.Log("Before Rotation Z : " + transform.rotation.z);
         transform.rotation = Quaternion.Euler(0, 0, ((int)playerGravityDirection+2) * -90f);
         int convertedDirection = direction;
-        ////UP
-        //if (direction == 0)
-        //    convertedDirection = 0;
-        ////Down
-        //else if (direction == 1)
-        //    convertedDirection = 2;
-        ////Left
-        //else if (direction == 2)
-        //    convertedDirection = 3;
-        ////Right
-        //else if (direction == 3)
-        //    convertedDirection = 1;
-        //else
-        //    Debug.LogError("Awrong Direction In playerFolding");
         Debug.Log("Folding Direction :" + direction + "\nValeu : " + ((int)playerGravityDirection - convertedDirection + 4) % 4);
         
 

@@ -7,6 +7,7 @@ public class StageManager : MonoBehaviour, ISceneManagerInterface
     MapManager mapManager;
     GameManager gameManager;
     public static StageManager instance;
+    [SerializeField] private Vector2 StartingCoordinate;
 
     public void Awake()
     {
@@ -17,7 +18,7 @@ public class StageManager : MonoBehaviour, ISceneManagerInterface
     public void Init()
     {
         Debug.Log("Stage Init");
-        Player.playerInstance.SetPlayer(0, 1);
+        Player.playerInstance.SetPlayer((int)StartingCoordinate.x, (int)StartingCoordinate.y);
     }
 
     // Start is called before the first frame update

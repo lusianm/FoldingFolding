@@ -18,9 +18,14 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.sceneCount);
     }
 
+    public void SceneChange(string sceneName)
+    {
+        SceneManager.LoadScene(SceneManager.GetSceneByName(sceneName).buildIndex);
+    }
+
     public void Start()
     {
-        sceneManager = this.GetComponentInChildren<ISceneManagerInterface>();
+        sceneManager = transform.parent.GetComponentInChildren<ISceneManagerInterface>();
         if (sceneManager == null)
             Debug.Log("sceneManager is null");
         else
