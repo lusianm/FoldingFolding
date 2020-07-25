@@ -1156,7 +1156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0512f7762edfb7e4abfacf177336757e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: ChapterSelect
+  nextSceneName: Endding
 --- !u!1 &1371630732
 GameObject:
   m_ObjectHideFlags: 0
