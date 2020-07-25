@@ -192,6 +192,9 @@ MonoBehaviour:
   - {fileID: 6071248061755174878, guid: 3c8399c4d37e6c041ac3c917190072ef, type: 3}
   thornPrefab: {fileID: 6640217367359706276, guid: 902d73c3f35fc4f4d8409fb506f755e7,
     type: 3}
+  flagPrefab: {fileID: 6640217367359706276, guid: 27dcfebe196061c41a9daee942b5bace,
+    type: 3}
+  sawPrefab: {fileID: 0}
 --- !u!1 &337728666 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3698267249604265746, guid: 920d7521b94155c45baf75ca956244bd,

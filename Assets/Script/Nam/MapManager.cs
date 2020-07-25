@@ -14,6 +14,8 @@ public enum Sub_ObjTYPE
 {
     가시,
     플레이어,
+    깃발,
+    톱니
 }
 
 public enum Sub_Direction
@@ -67,6 +69,8 @@ public class MapManager : MonoBehaviour
 
     public MapTile[] tilePrefab;
     public GameObject thornPrefab;
+    public GameObject flagPrefab;
+    public GameObject sawPrefab;
 
     public static MapManager instance;
     private void Awake()
@@ -158,6 +162,12 @@ public class MapManager : MonoBehaviour
                 case Sub_ObjTYPE.가시:
                     subObj = Instantiate(thornPrefab);
                     break;
+                case Sub_ObjTYPE.깃발:
+                    subObj = Instantiate(flagPrefab);
+                    break;
+                case Sub_ObjTYPE.톱니:
+                    subObj = Instantiate(sawPrefab);
+                    break;
                 default:
 
                     break;
@@ -178,6 +188,7 @@ public class MapManager : MonoBehaviour
                     break;
                 default:
 
+                    subObj.GetComponent<IInteractableObject>().ObjectInit((int)objsData[i].posIndex.x, (int)objsData[i].posIndex.y, (int)objsData[i].objDir);
                     break;
             }
         }
