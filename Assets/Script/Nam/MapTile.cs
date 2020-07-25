@@ -30,6 +30,7 @@ public partial class MapTile : MonoBehaviour
 
         MapManager.instance.Get_TileIndex(this);
         TileController.instance.onMouseClick = true;
+        TileController.instance.isTileSelected = true;
     }
     private void OnMouseOver()
     {

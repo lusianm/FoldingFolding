@@ -8,12 +8,13 @@ public class TileController : MonoBehaviour
     public static TileController instance = null;
     //[HideInInspector] public List<Tile> selectedTile = new List<Tile>();
     [HideInInspector] public List<MapTile> selectedTile = new List<MapTile>();
+    [HideInInspector] public bool isTileSelected = false;
     [HideInInspector] public bool onMouseClick = false;
     [HideInInspector] public Vector3 startPos;
     [HideInInspector] public Vector3 endPos;
     [HideInInspector] public float _tilePadValue = 0.33f;
     bool isRotating = false;
-    bool tileHasPlayer = false;
+    
     
     private void Awake()
     {
@@ -25,7 +26,7 @@ public class TileController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (selectedTile.Count > 0 && isRotating == false)
+        if (isTileSelected == true && isRotating == false) 
         {
             if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) //Up
             {
@@ -59,6 +60,7 @@ public class TileController : MonoBehaviour
         List<GameObject> copiedTile = new List<GameObject>();
         Vector2 playerIndex = Player.playerInstance.GetPlayerCoordinate;
         int playerIndexList = 0;
+        bool tileHasPlayer = false;
         for (int i = 0; i < selectedTile.Count; i++)
         {
             copiedTile.Add(Instantiate(selectedTile[i].gameObject));
@@ -281,7 +283,7 @@ public class TileController : MonoBehaviour
                 hittedTileList[i].SetTileInfo(copiedTile[i].GetComponent<MapTile>());
             }
             Vector2 newPlayerIndex = new Vector2(hittedTileList[playerIndexList].currX, hittedTileList[playerIndexList].currX);
-            Player.playerInstance.playerFolding(newPlayerIndex, (int)dir);
+            if (tileHasPlayer == true) Player.playerInstance.playerFolding(newPlayerIndex, (int)dir);
         }
 
         selectedTile.Clear();
@@ -292,6 +294,7 @@ public class TileController : MonoBehaviour
             copiedTile.RemoveAt(0);
             Destroy(obj);
         }
+        isTileSelected = false;
     }
 
 }
