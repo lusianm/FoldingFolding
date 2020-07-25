@@ -7,7 +7,6 @@ public class StageManager : MonoBehaviour, ISceneManagerInterface
     MapManager mapManager;
     GameManager gameManager;
     public static StageManager instance;
-    [SerializeField] private Vector2 StartingCoordinate;
     [SerializeField] private string nextSceneName;
 
     public void Awake()
@@ -19,7 +18,6 @@ public class StageManager : MonoBehaviour, ISceneManagerInterface
     public void Init()
     {
         Debug.Log("Stage Init");
-        Player.playerInstance.SetPlayer((int)StartingCoordinate.x, (int)StartingCoordinate.y);
         SoundManager.instance.Play_BGM(BGM_LIST.GAME_LV1);
     }
 

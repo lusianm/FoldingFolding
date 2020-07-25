@@ -272,9 +272,9 @@ public class Player : MonoBehaviour
     public void SetPlayer(int xPos, int yPos, int direction)
     {
         playerCoordinate = new Vector2(xPos, yPos);
-        playerGravityDirection = PlayerDirection.Down;
+        playerGravityDirection = playerDirectionEnum[direction];
         playerState = PlayerState.Idle;
-        transform.rotation = Quaternion.Euler(0, 0, 0);
+        transform.rotation = Quaternion.Euler(0, 0, ((int)playerGravityDirection + 2) * -90f);
         transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
     }
 
@@ -283,13 +283,8 @@ public class Player : MonoBehaviour
     {
         playerCoordinate = foldCoordinate;
         transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
-        Debug.Log("Before Rotation Z : " + transform.rotation.z);
         transform.rotation = Quaternion.Euler(0, 0, ((int)playerGravityDirection+2) * -90f);
-        int convertedDirection = direction;
-        Debug.Log("Folding Direction :" + direction + "\nValeu : " + ((int)playerGravityDirection - convertedDirection + 4) % 4);
-        
-
-        switch (((int)playerGravityDirection - convertedDirection + 4) % 4) {
+        switch (((int)playerGravityDirection - direction + 4) % 4) {
             case 0:
                 Jump();
                 break;
