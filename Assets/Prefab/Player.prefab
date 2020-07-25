@@ -152,7 +152,7 @@ MonoBehaviour:
   playerState: 0
   playerCoordinate: {x: 0, y: 0}
   spriteRenderer: {fileID: 963197176}
-  inputDelay: 1
+  inputDelay: 0.8
   PlayerInitialSetCoordinate: {x: 0, y: 0}
 --- !u!114 &6493859390856565533
 MonoBehaviour:

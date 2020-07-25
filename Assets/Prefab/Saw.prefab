@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6640217367359706277}
-  - component: {fileID: 3902831497057228481}
   - component: {fileID: 739446619}
+  - component: {fileID: 5347792806600357851}
   m_Layer: 0
-  m_Name: Goal Flag
+  m_Name: Saw
   m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,18 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3902831497057228481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6640217367359706276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91a1ef88b67ad5a43bc8d60077defa88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &739446619
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -58,6 +46,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.25, y: 0.25, z: 0.01}
   m_Center: {x: 0.01, y: 0.025, z: 0}
+--- !u!114 &5347792806600357851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6640217367359706276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e571a68ed149c34aa48f18400995c3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
 --- !u!1 &6640217368647456319
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +129,7 @@ SpriteRenderer:
   m_SortingLayerID: -1120657629
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 70e417bd1303456429de419a0e15493a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 33ef0db6b78cf834988bf11c75431e38, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
