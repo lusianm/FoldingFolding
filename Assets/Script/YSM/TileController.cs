@@ -478,6 +478,11 @@ public class TileController : MonoBehaviour
 
                 yield return null;
             }
+
+            for (int i = 0; i < hittedTileList.Count; i++)
+            {
+                hittedTileList[i].SetEffect_WiggleNTwinckle();
+            }
         }
         else
         {
