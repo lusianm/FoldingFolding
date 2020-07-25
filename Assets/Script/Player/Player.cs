@@ -291,6 +291,8 @@ public class Player : MonoBehaviour
                 spriteRenderer.flipX = !IsPlayerXFlip;
                 break;
         }
+        playerState = PlayerState.Move;
+        StartCoroutine(MovingTime());
     }
 
     // Update is called once per frame
@@ -308,7 +310,6 @@ public class Player : MonoBehaviour
 
     public void PlayerDie()
     {
-        Debug.LogError("Player Die");
         if (playerState != PlayerState.StageClear)
         {
             playerState = PlayerState.DIe;
