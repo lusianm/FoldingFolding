@@ -20,6 +20,7 @@ public class StageManager : MonoBehaviour, ISceneManagerInterface
     {
         Debug.Log("Stage Init");
         Player.playerInstance.SetPlayer((int)StartingCoordinate.x, (int)StartingCoordinate.y);
+        SoundManager.instance.Play_BGM(BGM_LIST.GAME_LV1);
     }
 
     // Start is called before the first frame update
@@ -35,7 +36,16 @@ public class StageManager : MonoBehaviour, ISceneManagerInterface
 
     public void StageClear()
     {
+        SoundManager.instance.Play_BGM(BGM_LIST.WIN_1);
+        StartCoroutine(StageClearTime());
+    }
+
+    IEnumerator StageClearTime()
+    {
+        yield return new WaitForSeconds(2f);
         gameManager.SceneChange(nextSceneName);
     }
+
+
 
 }

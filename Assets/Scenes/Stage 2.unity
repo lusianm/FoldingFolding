@@ -299,17 +299,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxx: 8
   maxy: 10
-  _inputTileData: '0000000
+  _inputTileData: '0001020
 
-    0000000
+    0001020
 
-    0011100
+    0001020
 
-    0010100
+    0000020
 
-    0011100
+    0000020
 
-    0000000'
+    0001020'
   objsData:
   - posIndex: {x: 0, y: 0}
     objDir: 0
@@ -363,10 +363,6 @@ PrefabInstance:
     - target: {fileID: 337728667, guid: 920d7521b94155c45baf75ca956244bd, type: 3}
       propertyPath: m_IsTrigger
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 963197175, guid: 920d7521b94155c45baf75ca956244bd, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: 3698267249604265746, guid: 920d7521b94155c45baf75ca956244bd,
         type: 3}
@@ -1264,8 +1260,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0512f7762edfb7e4abfacf177336757e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingCoordinate: {x: 3, y: 1}
-  nextSceneName: Stage 2
+  StartingCoordinate: {x: 0, y: 4}
+  nextSceneName: Stage 3
 --- !u!1 &1371630732
 GameObject:
   m_ObjectHideFlags: 0

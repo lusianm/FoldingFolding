@@ -242,6 +242,7 @@ public class Player : MonoBehaviour
     //Player의 점프 처리 함수
     public void Jump()
     {
+        SoundManager.instance.Play_SFX(SFX_LIST.PLAYER_JUMP);
         playerGravityDirection = playerDirectionEnum[((int)playerGravityDirection + 2) % 4];
         transform.Rotate(new Vector3(0, 0, 180));
         spriteRenderer.flipX = !IsPlayerXFlip;
@@ -339,6 +340,7 @@ public class Player : MonoBehaviour
 
     IEnumerator MovingTime()
     {
+        SoundManager.instance.Play_SFX(SFX_LIST.PLAYER_MOVE);
         yield return new WaitForSeconds(inputDelay/8);
         //Falling Animation으로 전환
         if (MapManager.instance.Get_MapTileType((int)playerGroundCoordinate.x, (int)playerGroundCoordinate.y) != 0)
