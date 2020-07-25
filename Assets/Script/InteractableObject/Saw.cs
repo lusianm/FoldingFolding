@@ -48,16 +48,23 @@ public class Saw : MonoBehaviour, IInteractableObject
                 {
                     MapManager.instance.SetTile_Passible((int)sawCoordinate.x, (int)sawCoordinate.y);
                 }
-                Vector2 targetCoordinate = sawCoordinate + directionVector[moveDirection];
-                int targetTileType = MapManager.instance.Get_MapTileType((int)targetCoordinate.x, (int)targetCoordinate.y);
-                if (targetTileType == 0 || targetTileType == 3)
+                if (TileController.instance.isTileSelected)
                 {
-                    sawCoordinate = targetCoordinate;
-                    targetPosition = MapManager.instance.Get_MapTilePosition((int)sawCoordinate.x, (int)sawCoordinate.y);
+                    IsMoving = false;
                 }
                 else
                 {
-                    moveDirection = (moveDirection + 2) % 4;
+                    Vector2 targetCoordinate = sawCoordinate + directionVector[moveDirection];
+                    int targetTileType = MapManager.instance.Get_MapTileType((int)targetCoordinate.x, (int)targetCoordinate.y);
+                    if (targetTileType == 0 || targetTileType == 3)
+                    {
+                        sawCoordinate = targetCoordinate;
+                        targetPosition = MapManager.instance.Get_MapTilePosition((int)sawCoordinate.x, (int)sawCoordinate.y);
+                    }
+                    else
+                    {
+                        moveDirection = (moveDirection + 2) % 4;
+                    }
                 }
             }
             else
@@ -66,6 +73,29 @@ public class Saw : MonoBehaviour, IInteractableObject
             }                
         }
     }
+
+    public void sawFolding(Vector2 foldCoordinate, int direction)
+    {
+        //sawCoordinate = foldCoordinate;
+        //transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
+        //transform.rotation = Quaternion.Euler(0, 0, ((int)playerGravityDirection + 2) * -90f);
+        //switch (((int)playerGravityDirection - direction + 4) % 4)
+        //{
+        //    case 0:
+        //        Jump();
+        //        break;
+        //    case 1:
+        //        spriteRenderer.flipX = !IsPlayerXFlip;
+        //        break;
+        //    case 2:
+        //        Jump();
+        //        break;
+        //    case 3:
+        //        spriteRenderer.flipX = !IsPlayerXFlip;
+        //        break;
+        //}
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -78,10 +108,10 @@ public class Saw : MonoBehaviour, IInteractableObject
     //여승모
     private void OnMouseDown()
     {
-        
         TileController.instance.onMouseClick = true;
         TileController.instance.isTileSelected = true;
     }
+
     private void OnMouseOver()
     {
         if (TileController.instance.onMouseClick == true && isSelected == false)
