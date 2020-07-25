@@ -98,6 +98,7 @@ MonoBehaviour:
   currX: 0
   currY: 0
   myTileType: 2
+  _hdrMat: {fileID: 2100000, guid: 0062eff437ff44f44ba8944dd2dc5e60, type: 2}
 --- !u!65 &1035058784712843333
 BoxCollider:
   m_ObjectHideFlags: 0
