@@ -11,6 +11,13 @@ public class Saw : MonoBehaviour, IInteractableObject
     private Vector2 sawCoordinate;
     Vector2[] directionVector = { Vector2.down, Vector2.right, Vector2.up, Vector2.left };
 
+    public static Saw instance;
+
+    public void Start()
+    {
+        instance = this;
+    }
+
     public bool isReady = false;
 
     //여승모
@@ -72,10 +79,18 @@ public class Saw : MonoBehaviour, IInteractableObject
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
             }                
         }
+        else
+        {
+            if (!TileController.instance.isTileSelected)
+            {
+                IsMoving = true;
+            }
+        }
     }
 
     public void sawFolding(Vector2 foldCoordinate, int direction)
     {
+        Debug.Log("sawFolding");
         sawCoordinate = foldCoordinate;
         transform.rotation = Quaternion.Euler(0, 0, 0);
         transform.position = MapManager.instance.Get_MapTilePosition((int)sawCoordinate.x, (int)sawCoordinate.y);
