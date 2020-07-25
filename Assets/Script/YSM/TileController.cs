@@ -6,7 +6,6 @@ using UnityEngine;
 public class TileController : MonoBehaviour
 {
     public static TileController instance = null;
-    //[HideInInspector] public List<Tile> selectedTile = new List<Tile>();
     [HideInInspector] public List<MapTile> selectedTile = new List<MapTile>();
     [HideInInspector] public bool isTileSelected = false;
     [HideInInspector] public bool onMouseClick = false;
@@ -61,8 +60,6 @@ public class TileController : MonoBehaviour
 
     IEnumerator RotateObject(PlayerDirection dir)
     {
-        //Tile lastSelectedTile = selectedTile[selectedTile.Count - 1];
-        //Tile firstSelectedTile = selectedTile[0];
         MapTile lastSelectedTile = selectedTile[selectedTile.Count - 1];
         MapTile firstSelectedTile = selectedTile[0];
         List<GameObject> copiedTile = new List<GameObject>();
@@ -77,11 +74,15 @@ public class TileController : MonoBehaviour
                 playerIndexList = i;
                 tileHasPlayer = true;
             }
-                //Tile tile = copiedTile[i].GetComponent<Tile>();
-                MapTile tile = copiedTile[i].GetComponent<MapTile>();
+            for(int j=0;j<copiedTile[i].transform.childCount;j++)
+            {
+                if (copiedTile[i].transform.GetChild(i).tag == "Finish")
+                    Destroy(copiedTile[i].transform.GetChild(i).gameObject);
+            }
+            MapTile tile = copiedTile[i].GetComponent<MapTile>();
             if (tile != null)
             {
-                tile.SetTileInfo(selectedTile[i]);
+                tile.CopyTileInfo(selectedTile[i]);
             }
         }
 
@@ -107,30 +108,49 @@ public class TileController : MonoBehaviour
                         if (firstSelectedTile.currY > lastSelectedTile.currY)
                         {
                             copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.up * _tilePadValue / 2f, -lastSelectedTile.transform.right, -angle);
-                            if(tileHasPlayer)
-                                Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.up * _tilePadValue / 2f, -lastSelectedTile.transform.right, -angle);
                         }
                         else
                         {
                             copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.up * _tilePadValue / 2f, -firstSelectedTile.transform.right, -angle);
-                            if (tileHasPlayer) Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.up * _tilePadValue / 2f, -firstSelectedTile.transform.right, -angle);
-                        }                            
+                         }
                     }
+                    if (tileHasPlayer)
+                    {
+                        if (firstSelectedTile.currY > lastSelectedTile.currY)
+                        {
+
+                            Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.up * _tilePadValue / 2f, -lastSelectedTile.transform.right, -angle);
+                        }
+                        else
+                        {
+                            Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.up * _tilePadValue / 2f, -firstSelectedTile.transform.right, -angle);
+                        }
+                    }                        
                     break;
+                    
                 case PlayerDirection.Down:
                     for (int i = 0; i < copiedTile.Count; i++)
                     {
                         if (firstSelectedTile.currY > lastSelectedTile.currY)
                         {
                             copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.up * _tilePadValue / 2f, -firstSelectedTile.transform.right, angle);
-                            if (tileHasPlayer) Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.up * _tilePadValue / 2f, -firstSelectedTile.transform.right, angle);
                         }                            
                         else
                         {
                             copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.up * _tilePadValue / 2f, -lastSelectedTile.transform.right, angle);
-                            if (tileHasPlayer) Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.up * _tilePadValue / 2f, -lastSelectedTile.transform.right, angle);
-                        }                            
+                        }
                     }
+                    if (tileHasPlayer)
+                    {
+                        if (firstSelectedTile.currY > lastSelectedTile.currY)
+                        {
+                            Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.up * _tilePadValue / 2f, -firstSelectedTile.transform.right, angle);
+                        }
+                        else
+                        {
+                            Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.up * _tilePadValue / 2f, -lastSelectedTile.transform.right, angle);
+                        }
+                    }                        
                     break;
                 case PlayerDirection.Left:
                     for (int i = 0; i < selectedTile.Count; i++)
@@ -138,12 +158,21 @@ public class TileController : MonoBehaviour
                         if (firstSelectedTile.currX < lastSelectedTile.currX)
                         {
                             copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.right * _tilePadValue / 2f, firstSelectedTile.transform.up, angle);
-                            if (tileHasPlayer) Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.right * _tilePadValue / 2f, firstSelectedTile.transform.up, angle);
                         }
                         else
                         {
                             copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.right * _tilePadValue / 2f, lastSelectedTile.transform.up, angle);
-                            if (tileHasPlayer) Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.right * _tilePadValue / 2f, lastSelectedTile.transform.up, angle);
+                        }
+                    }
+                    if (tileHasPlayer)
+                    {
+                        if (firstSelectedTile.currX < lastSelectedTile.currX)
+                        {
+                            Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.right * _tilePadValue / 2f, firstSelectedTile.transform.up, angle);
+                        }
+                        else
+                        {
+                            Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.right * _tilePadValue / 2f, lastSelectedTile.transform.up, angle);
                         }
                     }
                     break;
@@ -153,14 +182,22 @@ public class TileController : MonoBehaviour
                         if (firstSelectedTile.currX < lastSelectedTile.currX)
                         {
                             copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.right * _tilePadValue / 2f, -lastSelectedTile.transform.up, angle);
-                            if (tileHasPlayer) Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.right * _tilePadValue / 2f, -lastSelectedTile.transform.up, angle);
                         }
                         else
                         {
                             copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.right * _tilePadValue / 2f, -firstSelectedTile.transform.up, angle);
-                            if (tileHasPlayer) Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.right * _tilePadValue / 2f, -firstSelectedTile.transform.up, angle);
                         }
-                            
+                    }
+                    if (tileHasPlayer)
+                    {
+                        if (firstSelectedTile.currX < lastSelectedTile.currX)
+                        {
+                            Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.right * _tilePadValue / 2f, -lastSelectedTile.transform.up, angle);
+                        }
+                        else
+                        {
+                            Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.right * _tilePadValue / 2f, -firstSelectedTile.transform.up, angle);
+                        }
                     }
                     break;
             }
@@ -170,21 +207,17 @@ public class TileController : MonoBehaviour
 
         isRotating = false;
         bool backRoate = false;
-        //List<Tile> hittedTileList = new List<Tile>();
         List<MapTile> hittedTileList = new List<MapTile>();
         for (int i = 0; i < copiedTile.Count; i++)
         {
-            //Tile tile = copiedTile[i].GetComponent<Tile>();
             MapTile tile = copiedTile[i].GetComponent<MapTile>();
             RaycastHit hit;
             Debug.DrawRay(copiedTile[i].transform.position + Vector3.forward, Vector3.back, Color.red, 2f);
             if (Physics.Raycast(copiedTile[i].transform.position + Vector3.forward, Vector3.back * 2, out hit, 2))
             {
-                //Tile hitTile = hit.transform.GetComponent<Tile>();
                 MapTile hitTile = hit.transform.GetComponent<MapTile>();
                 if (hitTile != null)
                 {
-                    //if (hitTile.tileValue == TileValue.BLACK || hitTile.tileValue == TileValue.YELLOW)
                     if (hitTile.myTileType == TILE_TYPE.검정_변형불가 || hitTile.myTileType == TILE_TYPE.노랑_톱니로부숴)
                     {
                         backRoate = true;
@@ -218,13 +251,23 @@ public class TileController : MonoBehaviour
                             if (firstSelectedTile.currY > lastSelectedTile.currY)
                             {
                                 copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.up * _tilePadValue / 2f, lastSelectedTile.transform.right, -angle);
-                                if (tileHasPlayer) Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.up * _tilePadValue / 2f, lastSelectedTile.transform.right, -angle);
                             }
                                 
                             else
                             {
                                 copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.up * _tilePadValue / 2f, firstSelectedTile.transform.right, -angle);
-                                if (tileHasPlayer) Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.up * _tilePadValue / 2f, firstSelectedTile.transform.right, -angle);
+                            }
+                        }
+                        if (tileHasPlayer)
+                        {
+                            if (firstSelectedTile.currY > lastSelectedTile.currY)
+                            {
+                                Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.up * _tilePadValue / 2f, lastSelectedTile.transform.right, -angle);
+                            }
+
+                            else
+                            {
+                                Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.up * _tilePadValue / 2f, firstSelectedTile.transform.right, -angle);
                             }
                         }
                         break;
@@ -234,50 +277,76 @@ public class TileController : MonoBehaviour
                             if (firstSelectedTile.currY > lastSelectedTile.currY)
                             {
                                 copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.up * _tilePadValue / 2f, firstSelectedTile.transform.right, angle);
-                                if (tileHasPlayer) Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.up * _tilePadValue / 2f, firstSelectedTile.transform.right, angle);
                             }
 
                             else
                             {
                                 copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.up * _tilePadValue / 2f, lastSelectedTile.transform.right, angle);
-                                if (tileHasPlayer) Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.up * _tilePadValue / 2f, lastSelectedTile.transform.right, angle);
                             }
                         }
-                        break;
+                        if (tileHasPlayer)
+                        {
+                            if (firstSelectedTile.currY > lastSelectedTile.currY)
+                            {
+                                Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.up * _tilePadValue / 2f, firstSelectedTile.transform.right, angle);
+                            }
+
+                            else
+                            {
+                                Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.up * _tilePadValue / 2f, lastSelectedTile.transform.right, angle);
+                            }
+                        }
+                            break;
                     case PlayerDirection.Left:
                         for (int i = 0; i < selectedTile.Count; i++)
                         {
                             if (firstSelectedTile.currX < lastSelectedTile.currX)
                             {
                                 copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.right * _tilePadValue / 2f, -firstSelectedTile.transform.up, angle);
-                                if (tileHasPlayer) Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.right * _tilePadValue / 2f, -firstSelectedTile.transform.up, angle);
                             }
                                 
                             else
                             {
                                 copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.right * _tilePadValue / 2f, -lastSelectedTile.transform.up, angle);
-                                if (tileHasPlayer) Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.right * _tilePadValue / 2f, -lastSelectedTile.transform.up, angle);
                             }
-                                
                         }
-                        break;
+                        if (tileHasPlayer)
+                        {
+                            if (firstSelectedTile.currX < lastSelectedTile.currX)
+                            {
+                                Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position - firstSelectedTile.transform.right * _tilePadValue / 2f, -firstSelectedTile.transform.up, angle);
+                            }
+
+                            else
+                            {
+                                Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position - lastSelectedTile.transform.right * _tilePadValue / 2f, -lastSelectedTile.transform.up, angle);
+                            }
+                        }
+                            break;
                     case PlayerDirection.Right:
                         for (int i = 0; i < copiedTile.Count; i++)
                         {
                             if (firstSelectedTile.currX < lastSelectedTile.currX)
                             {
                                 copiedTile[i].transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.right * _tilePadValue / 2f, lastSelectedTile.transform.up, angle);
-                                if (tileHasPlayer) Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.right * _tilePadValue / 2f, lastSelectedTile.transform.up, angle);
                             }
-                                
                             else
                             {
                                 copiedTile[i].transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.right * _tilePadValue / 2f, firstSelectedTile.transform.up, angle);
-                                if (tileHasPlayer) Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.right * _tilePadValue / 2f, firstSelectedTile.transform.up, angle);
                             }
-                                
                         }
-                        break;
+                        if (tileHasPlayer)
+                        {
+                            if (firstSelectedTile.currX < lastSelectedTile.currX)
+                            {
+                                Player.playerInstance.transform.RotateAround(lastSelectedTile.transform.position + lastSelectedTile.transform.right * _tilePadValue / 2f, lastSelectedTile.transform.up, angle);
+                            }
+                            else
+                            {
+                                Player.playerInstance.transform.RotateAround(firstSelectedTile.transform.position + firstSelectedTile.transform.right * _tilePadValue / 2f, firstSelectedTile.transform.up, angle);
+                            }
+                        }
+                            break;
                 }
 
                 yield return null;
@@ -288,7 +357,6 @@ public class TileController : MonoBehaviour
             
             for (int i = 0; i < hittedTileList.Count; i++)
             {
-                //hittedTileList[i].SetTileInfo(copiedTile[i].GetComponent<Tile>());
                 hittedTileList[i].SetTileInfo(copiedTile[i].GetComponent<MapTile>());
             }
             Vector2 newPlayerIndex = new Vector2(hittedTileList[playerIndexList].currX, hittedTileList[playerIndexList].currY);
