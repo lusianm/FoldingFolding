@@ -487,6 +487,7 @@ public class TileController : MonoBehaviour
         if (saw != null)
         {
             saw.IsMoving = true;
+            saw.isSelected = false;
         }
     }
 

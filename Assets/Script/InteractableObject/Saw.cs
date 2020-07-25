@@ -14,7 +14,7 @@ public class Saw : MonoBehaviour, IInteractableObject
     public bool isReady = false;
 
     //여승모
-    bool isSelected = false;
+    public bool isSelected = false;
 
     public void ObjectInit(Vector2 coordinate, int direction)
     {
