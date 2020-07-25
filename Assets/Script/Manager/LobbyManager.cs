@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class LobbyManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void SceneChange()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameManager.instance.SceneChange("ChapterSelect");
     }
 }

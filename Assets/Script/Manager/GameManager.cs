@@ -44,5 +44,9 @@ public class GameManager : MonoBehaviour
         sceneManager.Init();
     }
 
+    public void Update()
+    {
+    }
+
 
 }
