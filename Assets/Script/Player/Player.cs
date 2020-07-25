@@ -269,7 +269,7 @@ public class Player : MonoBehaviour
         transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
     }
 
-    public void SetPlayer(int xPos, int yPos)
+    public void SetPlayer(int xPos, int yPos, int direction)
     {
         playerCoordinate = new Vector2(xPos, yPos);
         playerGravityDirection = PlayerDirection.Down;
