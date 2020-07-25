@@ -45,12 +45,4 @@ public partial class MapTile : MonoBehaviour
         yield return new WaitForSeconds(effectDuration);
         render.material = originMat;
     }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SetEffect_WiggleNTwinckle();
-        }
-    }
 }
