@@ -85,8 +85,8 @@ public class TileController : MonoBehaviour
             }
             for(int j=0;j<copiedTile[i].transform.childCount;j++)
             {
-                if (copiedTile[i].transform.GetChild(i).tag == "Finish")
-                    Destroy(copiedTile[i].transform.GetChild(i).gameObject);
+                if (copiedTile[i].transform.GetChild(j).tag == "Finish")
+                    Destroy(copiedTile[i].transform.GetChild(j).gameObject);
             }
             MapTile tile = copiedTile[i].GetComponent<MapTile>();
             if (tile != null)
