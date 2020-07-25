@@ -46,6 +46,9 @@ public class Player : MonoBehaviour
     //Player의 Sprite의 X 반전 여부를 반환하는 함수
     public bool IsPlayerXFlip => spriteRenderer.flipX;
 
+    //Player의 좌표값(Index)를 반환하는 함수
+    public Vector2 GetPlayerCoordinate => playerCoordinate;
+
     //Gravity의 방향에 따라 Input값을 Player기준으로 변환시켜주는 함수
     private float MoveDirectionConvert(float xAxis, float yAxis)
     {
