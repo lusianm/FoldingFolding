@@ -28,12 +28,12 @@ public class Tile : MonoBehaviour
     }
     private void OnMouseOver()
     {
-        if (TileController.instance.onMouseClick == true && isSelected == false)
-        {
-            isSelected = true;
-            sprite.color = new Color(0.5f, 0.9f, 1f);
-            TileController.instance.selectedTile.Add(this);
-        }
+        //if (TileController.instance.onMouseClick == true && isSelected == false)
+        //{
+        //    isSelected = true;
+        //    sprite.color = new Color(0.5f, 0.9f, 1f);
+        //    TileController.instance.selectedTile.Add(this);
+        //}
     }
 
     private void OnMouseUp()
@@ -46,6 +46,7 @@ public class Tile : MonoBehaviour
         tileValue = tile.tileValue;
         sprite.color = tile.originColor;
         originColor = tile.originColor;
+
     }
 
     public void UnSelectTile()

@@ -81,6 +81,7 @@ public class MapManager : MonoBehaviour
         SetInitialize_MapTiles();
 
         DebugLog_MapTiles();
+        TileController.instance._tilePadValue = _tilePadValue;
     }
 
     private void OnDisable()
