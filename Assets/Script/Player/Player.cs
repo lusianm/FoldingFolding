@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     private Animator playerAnimator;
     [SerializeField] private float inputDelay = 1f;
+    [SerializeField] private float fallingSpeed = 1f;
     [SerializeField] Vector2 PlayerInitialSetCoordinate;
 
     public static Player playerInstance;
@@ -295,22 +296,14 @@ public class Player : MonoBehaviour
     // Update is called once per frame
 
 
-    void CheckGround()
+    void Falling()
     {
-        if (MapManager.instance.Get_MapTileType((int)playerGroundCoordinate.x, (int)playerGroundCoordinate.y) != 0)
-        {
-            playerState = PlayerState.Idle;
-            playerAnimator.SetBool("IsFalling", false);
-        }
-        else
-        {
-            playerState = PlayerState.Falling;
-            playerAnimator.SetBool("IsFalling", true);
-            playerCoordinate = playerGroundCoordinate;
-            transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
-            StartCoroutine(FaillingTime());
-            //바닥으로 이동
-        }
+        playerState = PlayerState.Falling;
+        playerAnimator.SetBool("IsFalling", true);
+        playerCoordinate = playerGroundCoordinate;
+        //transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
+        StartCoroutine(FaillingTime());
+        //바닥으로 이동
     }
 
     public void PlayerDie()
@@ -328,30 +321,38 @@ public class Player : MonoBehaviour
     IEnumerator MovingTime()
     {
         SoundManager.instance.Play_SFX(SFX_LIST.PLAYER_MOVE);
-        yield return new WaitForSeconds(inputDelay/8);
+        yield return new WaitForSeconds(inputDelay/20);
         //Falling Animation으로 전환
         if (MapManager.instance.Get_MapTileType((int)playerGroundCoordinate.x, (int)playerGroundCoordinate.y) != 0)
+        {
             playerAnimator.SetBool("IsFalling", false);
+            yield return new WaitForSeconds(inputDelay * 19 / 20);
+            playerState = PlayerState.Idle;
+        }
         else
-            playerAnimator.SetBool("IsFalling", true);
-
-        yield return new WaitForSeconds(inputDelay * 7 / 6);
-        if (playerState == PlayerState.Move)
-            CheckGround();
+        {
+            Falling();
+        }
     }
 
     IEnumerator FaillingTime()
     {
-        yield return new WaitForSeconds(inputDelay / 6);
-        //Falling Animation으로 전환
+        Vector3 targetPosition = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
+        while (transform.position != targetPosition)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, fallingSpeed * Time.deltaTime);
+            yield return null;
+        }
         if (MapManager.instance.Get_MapTileType((int)playerGroundCoordinate.x, (int)playerGroundCoordinate.y) != 0)
+        {
             playerAnimator.SetBool("IsFalling", false);
+            yield return new WaitForSeconds(inputDelay * 7 / 6);
+            playerState = PlayerState.Idle;
+        }
         else
-            playerAnimator.SetBool("IsFalling", true);
-
-        yield return new WaitForSeconds(inputDelay * 5 / 6);
-        if (playerState == PlayerState.Falling)
-            CheckGround();
+        {
+            Falling();
+        }
     }
 
     IEnumerator DieTime()
