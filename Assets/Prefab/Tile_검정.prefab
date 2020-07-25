@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: -557254107
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 971e9c850545bdc42b082b32c27a06cd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3ac13044a6b605e4f979b0abc30fe9d4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,6 +98,7 @@ MonoBehaviour:
   currX: 0
   currY: 0
   myTileType: 2
+  originSprite: {fileID: 0}
   _hdrMat: {fileID: 2100000, guid: 0062eff437ff44f44ba8944dd2dc5e60, type: 2}
 --- !u!65 &1035058784712843333
 BoxCollider:
@@ -110,5 +111,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.32, y: 0.32, z: 0.02}
-  m_Center: {x: 0, y: 0, z: 0.02}
+  m_Size: {x: 0.33102733, y: 0.33286518, z: 0.02}
+  m_Center: {x: 0.009189434, y: 0.024811447, z: 0.02}
