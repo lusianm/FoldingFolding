@@ -2,13 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerDirection
+{
+    Up = 0, Right = 1, Down = 2, Left = 3
+}
 public class Player : MonoBehaviour
 {
+    PlayerDirection[] playerDirectionEnum = { PlayerDirection.Up, PlayerDirection.Right, PlayerDirection.Down, PlayerDirection.Left };
+    [SerializeField] PlayerDirection playerGravityDirection;
+    public enum PlayerState
+    {
+        Idle, Move, Crouching, Jump, Falling, DIe, Damaged, StageClear
+    }
+    [SerializeField] PlayerState playerState;
+
     //Player의 칸의 좌표
     Vector2 playerCoordinate;
     Vector2[] directionVector = { Vector2.down, Vector2.right, Vector2.up, Vector2.left };
     [SerializeField] private SpriteRenderer spriteRenderer;
-    private Animator animator;
+    private Animator playerAnimator;
     [SerializeField] private float inputDelay = 1f;
     [SerializeField] Vector2 PlayerInitialSetCoordinate;
 
@@ -18,17 +30,6 @@ public class Player : MonoBehaviour
         playerInstance = this;
     }
 
-    public enum PlayerDirection
-    {
-        Up = 0, Right = 1, Down = 2, Left = 3
-    }
-    PlayerDirection[] playerDirectionEnum = { PlayerDirection.Up, PlayerDirection.Right, PlayerDirection.Down, PlayerDirection.Left };
-    [SerializeField] PlayerDirection playerGravityDirection;
-    public enum PlayerState
-    {
-        Idle, Move, Crouching, Jump, Falling, DIe, Damaged, StageClear
-    }
-    [SerializeField] PlayerState playerState;
 
     //Player가 밟고 있는 칸의 좌표
     [SerializeField] public Vector2 playerGroundCoordinate => playerCoordinate + directionVector[(int)playerGravityDirection];
@@ -115,43 +116,6 @@ public class Player : MonoBehaviour
         return 0;
     }
 
-    //Gravity의 방향에 따라 Player의 Position값을 보정해주는 함수
-    private Vector3 GravityDirectionCorrectionVector()
-    {
-        Vector3 correctionVector = Vector3.zero;
-        correctionVector.z = transform.position.z;
-        switch (playerGravityDirection)
-        {
-            case PlayerDirection.Up:
-                {
-                    correctionVector.x = 0;
-                    correctionVector.y = -0.5f;
-                    break;
-                }
-            case PlayerDirection.Right:
-                {
-                    correctionVector.x = -0.5f;
-                    correctionVector.y = 0;
-                    break;
-                }
-            case PlayerDirection.Down:
-                {
-                    correctionVector.x = 0;
-                    correctionVector.y = 0.5f;
-                    break;
-                }
-            case PlayerDirection.Left:
-                {
-                    correctionVector.x = 0.5f;
-                    correctionVector.y = 0;
-                    break;
-                }
-        }
-
-        return correctionVector;
-
-    }
-
     //Player의 이동 처리 함수
     public void Move(float xAxis, float yAxis)
     {
@@ -159,6 +123,7 @@ public class Player : MonoBehaviour
             return;
 
         float convertedXAxis = MoveDirectionConvert(xAxis, yAxis);
+        playerAnimator.SetBool("IsCrouching", IsCrouching());
 
         if (convertedXAxis == 0)
             return;
@@ -287,8 +252,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //spriteRenderer = this.GetComponent<SpriteRenderer>();
-        //animator = this.GetComponent<Animator>();
+        spriteRenderer = this.GetComponentInChildren<SpriteRenderer>();
+        playerAnimator = this.GetComponentInChildren<Animator>();
         playerState = PlayerState.Idle;
         playerGravityDirection = PlayerDirection.Down;
     }
@@ -345,10 +310,14 @@ public class Player : MonoBehaviour
     void CheckGround()
     {
         if (MapManager.instance.Get_MapTileType((int)playerGroundCoordinate.x, (int)playerGroundCoordinate.y) != 0)
+        {
             playerState = PlayerState.Idle;
+            playerAnimator.SetBool("IsFalling", false);
+        }
         else
         {
             playerState = PlayerState.Falling;
+            playerAnimator.SetBool("IsFalling", true);
             playerCoordinate = playerGroundCoordinate;
             transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
             StartCoroutine(FaillingTime());
@@ -359,19 +328,34 @@ public class Player : MonoBehaviour
     public void PlayerDie()
     {
         playerState = PlayerState.DIe;
+        playerAnimator.SetTrigger("PlayerDie");
         //게임 재시작 함수 호출
     }
 
     IEnumerator MovingTime()
     {
-        yield return new WaitForSeconds(inputDelay);
+        yield return new WaitForSeconds(inputDelay/8);
+        //Falling Animation으로 전환
+        if (MapManager.instance.Get_MapTileType((int)playerGroundCoordinate.x, (int)playerGroundCoordinate.y) != 0)
+            playerAnimator.SetBool("IsFalling", false);
+        else
+            playerAnimator.SetBool("IsFalling", true);
+
+        yield return new WaitForSeconds(inputDelay * 7 / 6);
         if (playerState == PlayerState.Move)
             CheckGround();
     }
 
     IEnumerator FaillingTime()
     {
-        yield return new WaitForSeconds(inputDelay);
+        yield return new WaitForSeconds(inputDelay / 6);
+        //Falling Animation으로 전환
+        if (MapManager.instance.Get_MapTileType((int)playerGroundCoordinate.x, (int)playerGroundCoordinate.y) != 0)
+            playerAnimator.SetBool("IsFalling", false);
+        else
+            playerAnimator.SetBool("IsFalling", true);
+
+        yield return new WaitForSeconds(inputDelay * 5 / 6);
         if (playerState == PlayerState.Falling)
             CheckGround();
     }

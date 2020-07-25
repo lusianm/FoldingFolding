@@ -81,7 +81,6 @@ public class MapManager : MonoBehaviour
         SetInitialize_MapTiles();
 
         DebugLog_MapTiles();
-        TileController.instance._tilePadValue = _tilePadValue;
     }
 
     private void OnDisable()
@@ -166,20 +165,18 @@ public class MapManager : MonoBehaviour
             if (subObj == null) continue;
 
             subObj.transform.parent = target.transform;
+            subObj.transform.localPosition = Vector3.zero;
 
-            //방향성 설정
-            switch(objsData[i].objDir)
+            //방향성 설정 : 가시만
+            switch (objsData[i].objType)
             {
-                case Sub_Direction.UP:
-
+                case Sub_ObjTYPE.가시:
+                    float[,] dirCorr = { { 0, 0.047f }, { 0.054f, 0 }, { 0, -0.03f }, { -0.042f, 0 } };
+                    int dirIndex = (int)objsData[i].objDir;
+                    subObj.transform.localPosition = new Vector3(dirCorr[dirIndex, 0], dirCorr[dirIndex, 1], 0);
+                    subObj.transform.localEulerAngles = new Vector3(0, 0, 180 - 90 * (int)objsData[i].objDir);
                     break;
-                case Sub_Direction.RIGHT:
-
-                    break;
-                case Sub_Direction.DOWN:
-
-                    break;
-                case Sub_Direction.LEFT:
+                default:
 
                     break;
             }
@@ -192,6 +189,22 @@ public class MapManager : MonoBehaviour
 
         motherTr.transform.Translate(new Vector3(-corrX, corrY, 0), Space.World);
 
+        //부모 좌표 초기화 ( 자식 분리 > 부모 좌표 초기화 > 자식 재설정
+        Set_MotherVectorZero(motherTr);
+    }
+
+    /// <summary>
+    /// 부모 좌표를 0으로 재설정합니다. 자식 오브젝트와 분리했다가 재결합시킵니다.
+    /// </summary>
+    private void Set_MotherVectorZero(GameObject motherTr)
+    {
+        MapTile[] childrenTr = motherTr.GetComponentsInChildren<MapTile>();
+
+        for(int i = 0; i < childrenTr.Length; i++) childrenTr[i].transform.parent = null;
+
+        motherTr.transform.position = Vector3.zero;
+
+        for (int i = 0; i < childrenTr.Length; i++) childrenTr[i].transform.parent = motherTr.transform;
     }
 
     /// <summary>
