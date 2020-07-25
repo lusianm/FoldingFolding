@@ -308,9 +308,13 @@ public class Player : MonoBehaviour
 
     public void PlayerDie()
     {
-        playerState = PlayerState.DIe;
-        playerAnimator.SetTrigger("PlayerDie");
-        StartCoroutine(DieTime());
+        Debug.LogError("Player Die");
+        if (playerState != PlayerState.StageClear)
+        {
+            playerState = PlayerState.DIe;
+            playerAnimator.SetTrigger("PlayerDie");
+            StartCoroutine(DieTime());
+        }
     }
     
     public void StageClear()

@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6640217367359706277}
-  - component: {fileID: 3902831497057228481}
   - component: {fileID: 739446619}
+  - component: {fileID: 4507908098481528519}
   m_Layer: 0
   m_Name: Goal Flag
   m_TagString: Finish
@@ -33,18 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3902831497057228481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6640217367359706276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91a1ef88b67ad5a43bc8d60077defa88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &739446619
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -58,6 +46,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.25, y: 0.25, z: 0.01}
   m_Center: {x: 0.01, y: 0.025, z: 0}
+--- !u!114 &4507908098481528519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6640217367359706276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f4bbf59ba1a5e4f93aeb5376c6138d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6640217368647456319
 GameObject:
   m_ObjectHideFlags: 0
