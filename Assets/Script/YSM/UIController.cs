@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class UIController : MonoBehaviour
 {
     public static UIController instance = null;
+    public bool opneTutorial = false;
     [SerializeField] GameObject tutorials;
     [SerializeField] RectTransform _tutorialBoard;
     [SerializeField] GameObject _prevButton;
@@ -34,9 +35,13 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         if (SceneManager.GetActiveScene().name == "Stage 1")
-            tutorials.SetActive(true);
+        {
+            opneTutorial = true; tutorials.SetActive(true);
+        }
+            
         currTutorialIndex = 0;
         _prevButton.SetActive(false);
+        _tutorialBoard.anchoredPosition = Vector2.zero;
     }
 
     private void Update()
@@ -63,6 +68,7 @@ public class UIController : MonoBehaviour
     {
         tutorials.SetActive(true);
         _tutorialBoard.GetChild(currTutorialIndex).GetComponent<Animation>().Play();
+        opneTutorial = true;
     }
     public void UI_Button_PrevTutorial()
     {
@@ -72,7 +78,8 @@ public class UIController : MonoBehaviour
             return;
         }
         _nextButton.SetActive(true);
-        
+
+        _tutorialBoard.GetChild(currTutorialIndex).GetComponent<Animation>().Stop();
         currTutorialIndex--;
         StartCoroutine(PrevPage());
 
@@ -85,15 +92,19 @@ public class UIController : MonoBehaviour
 
     public void UI_Button_NextTutorial()
     {
-        if (currTutorialIndex == totalIndex)
+        if (currTutorialIndex < totalIndex)
+        {
+            _prevButton.SetActive(true);
+
+            _tutorialBoard.GetChild(currTutorialIndex).GetComponent<Animation>().Stop();
+            currTutorialIndex++;
+            Debug.Log("First Pos : " + _tutorialBoard.rect.x);
+            StartCoroutine(NextPage());
+        }
+        else
         {
             _nextButton.SetActive(false);
-            return;
         }
-        _prevButton.SetActive(true);
-
-        currTutorialIndex++;
-        StartCoroutine(NextPage());
         //_tutorialBoard.transform.localPosition = new Vector2(-1300 * currTutorialIndex, 0);
         //_anims[currTutorialIndex].Play(Clips[currTutorialIndex]);
 
@@ -103,28 +114,30 @@ public class UIController : MonoBehaviour
 
     IEnumerator PrevPage()
     {
-        float currentPos = _tutorialBoard.rect.x;
-        while (currentPos < -2600 * currTutorialIndex)
+        float currentPos = _tutorialBoard.rect.xMin;
+        Debug.Log("!!!!" + currentPos);
+        while (currentPos < -1300 * currTutorialIndex)
         {
-            currentPos -= 200f;
-            _tutorialBoard.anchoredPosition = new Vector2(currentPos, 0);
+            currentPos += 100f;
+            _tutorialBoard.localPosition = new Vector2(currentPos, 0);
+            Debug.Log("Prev : " + currentPos);
+            Debug.Log("Current : " + _tutorialBoard.anchoredPosition);
             yield return null;
         }
-        _tutorialBoard.GetChild(currTutorialIndex).GetComponent<Animation>().Stop();
-        currTutorialIndex--;
         _tutorialBoard.GetChild(currTutorialIndex).GetComponent<Animation>().Play();
     }
     IEnumerator NextPage()
     {
-        float currentPos = _tutorialBoard.rect.x;
-        while (currentPos>2600* currTutorialIndex)
+        float currentPos = _tutorialBoard.rect.xMin;
+        Debug.Log("@@@@@");
+        while (currentPos>-1300* currTutorialIndex)
         {
-            currentPos += 200f;
-            _tutorialBoard.anchoredPosition = new Vector2(currentPos, 0);
+            currentPos -= 100f;
+            _tutorialBoard.localPosition = new Vector2(currentPos, 0);
+            Debug.Log("Next : " + currentPos);
+            Debug.Log("Current : " + _tutorialBoard.anchoredPosition);
             yield return null;
         }
-        _tutorialBoard.GetChild(currTutorialIndex).GetComponent<Animation>().Stop();
-        currTutorialIndex++;
         _tutorialBoard.GetChild(currTutorialIndex).GetComponent<Animation>().Play();
     }
 

@@ -26,7 +26,7 @@ public partial class MapTile : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (MapManager.instance == null) return;
+        if (MapManager.instance == null || UIController.instance.opneTutorial==true) return;
 
         MapManager.instance.Get_TileIndex(this);
         TileController.instance.onMouseClick = true;
