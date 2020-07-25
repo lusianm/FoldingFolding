@@ -21,7 +21,10 @@ public enum SFX_LIST
     DESTROY_BLOCK,
     FOLD,
     MENU_CLICK_1,
-    MENU_CLICK_2
+    MENU_CLICK_2,
+    PLAYER_DIE3,
+    PLAYER_LAND,
+    FADE_STAGE
 }
 
 public class SoundManager : MonoBehaviour

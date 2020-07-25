@@ -40,14 +40,14 @@ public class UIController : MonoBehaviour
 
     public void UI_Button_NextTutorial()
     {
-        if (currTutorialIndex == 2) return; 
+        if (currTutorialIndex == _anims.Length - 1) return; 
 
         currTutorialIndex++;
 
         _tutorialBoard.transform.localPosition = new Vector2(-1300 * currTutorialIndex, 0);
         _anims[currTutorialIndex].Play(Clips[currTutorialIndex]);
 
-        if (currTutorialIndex == 2) _nextButton.SetActive(false);
+        if (currTutorialIndex == _anims.Length - 1) _nextButton.SetActive(false);
         if (!_prevButton.activeInHierarchy) _prevButton.SetActive(true);
     }
 }
