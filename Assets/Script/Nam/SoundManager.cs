@@ -51,6 +51,21 @@ public class SoundManager : MonoBehaviour
             return s_instance;
         }
     }
+
+    void Awake()
+    {
+        if (s_instance == null)
+        {
+            s_instance = this;
+
+            DontDestroyOnLoad(this);
+
+        }
+        else if (this != s_instance)
+        {
+            Destroy(gameObject);
+        }
+    }
     #endregion
 
     /// <summary>
