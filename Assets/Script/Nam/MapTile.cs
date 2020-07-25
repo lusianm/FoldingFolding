@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapTile : MonoBehaviour
+public partial class MapTile : MonoBehaviour
 {
     public int currX;
     public int currY;
