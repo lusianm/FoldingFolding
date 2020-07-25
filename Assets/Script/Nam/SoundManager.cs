@@ -32,6 +32,11 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip[] _bgmClips;
     [SerializeField] AudioClip[] _sfxClips;
 
+    [Range(0, 1)]
+    public float _MainBGMVolume = 1f;
+    [Range(0, 1)]
+    public float _MainSFXVolume = 1f;
+
     #region 싱글톤 인스턴스화 : instance
     public static SoundManager s_instance;
     public static SoundManager instance
@@ -72,13 +77,13 @@ public class SoundManager : MonoBehaviour
     /// 특정 BGM을 재생합니다.
     /// </summary>
     /// <param name="target">재생할 BGM 용도</param>
-    /// <param name="vol">볼륨</param>
+    /// <param name="vol">볼륨. bgm이 너무 커서 0.2을 기본값으로 한다.</param>
     public void Play_BGM(BGM_LIST target, float vol = 0.2f)
     {
         if ((int)target >= _bgmClips.Length) return;
 
         if (_bgmSource.isPlaying) _bgmSource.Stop();
-        _bgmSource.volume = vol;
+        _bgmSource.volume = vol * _MainBGMVolume;
         _bgmSource.clip = _bgmClips[(int)target];
 
         //우승 BGM에서 반복 제거
@@ -112,6 +117,8 @@ public class SoundManager : MonoBehaviour
 
     private void Update()
     {
+        if (Application.platform != RuntimePlatform.WindowsEditor) return;
+
         if (Input.GetKeyDown(KeyCode.Space)) trigger = !trigger;
 
         for (int i = 0; i < quick.Length; i++)
