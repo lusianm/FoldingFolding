@@ -282,7 +282,7 @@ public class Player : MonoBehaviour
     {
         playerCoordinate = foldCoordinate;
         Debug.Log("Before Rotation Z : " + transform.rotation.z);
-        transform.rotation = Quaternion.Euler(0, 0, ((int)playerGravityDirection+2) * 90f);
+        transform.rotation = Quaternion.Euler(0, 0, ((int)playerGravityDirection+2) * -90f);
         int convertedDirection = direction;
         ////UP
         //if (direction == 0)
