@@ -269,6 +269,7 @@ public class Player : MonoBehaviour
         transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
     }
 
+    //Player Setting 함수
     public void SetPlayer(int xPos, int yPos, int direction)
     {
         playerCoordinate = new Vector2(xPos, yPos);
