@@ -22,4 +22,9 @@ public class ChapterSelectionManager : MonoBehaviour, ISceneManagerInterface
     {
         
     }
+
+    public void SceneChange(string sceneName)
+    {
+        GameManager.instance.SceneChange(sceneName);
+    }
 }
