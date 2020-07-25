@@ -18,7 +18,11 @@ public class TileController : MonoBehaviour
     private void Awake()
     {
         if (instance == null)
+        {
             instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+            
         else
             DestroyImmediate(this);
     }
@@ -218,12 +222,22 @@ public class TileController : MonoBehaviour
                 MapTile hitTile = hit.transform.GetComponent<MapTile>();
                 if (hitTile != null)
                 {
+                    for (int j = 0; j < hitTile.transform.childCount; j++)
+                    {
+                        if (hitTile.transform.GetChild(j).tag == "Finish")
+                            backRoate = true;
+                    }
+                    if (backRoate == true) break;
                     if (hitTile.myTileType == TILE_TYPE.검정_변형불가 || hitTile.myTileType == TILE_TYPE.노랑_톱니로부숴)
                     {
                         backRoate = true;
                         break;
                     }
                     hittedTileList.Add(hitTile);
+                }
+                else
+                {
+                    backRoate = true;
                 }
             }
             else

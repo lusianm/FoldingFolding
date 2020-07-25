@@ -37,7 +37,7 @@ public partial class MapTile : MonoBehaviour
         if (TileController.instance.onMouseClick == true && isSelected == false)
         {
             isSelected = true;
-            spriteRenderer.color = new Color(0.5f, 0.9f, 1f);
+            spriteRenderer.color = new Color(0.7f, 1f, 0.2f);
             TileController.instance.selectedTile.Add(this);
         }
     }
