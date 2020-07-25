@@ -71,7 +71,6 @@ public class MapManager : MonoBehaviour
 
     private void Start()
     {
-        SetInitialize_MapTiles();
         DebugLog_MapTiles();
     }
 

@@ -33,33 +33,15 @@ public class UIController : MonoBehaviour
     }
 
     private void Start()
-    {
-        if (SceneManager.GetActiveScene().name == "Stage 1")
-        {
-            opneTutorial = true; tutorials.SetActive(true);
-        }
-            
+    {            
         currTutorialIndex = 0;
         _prevButton.SetActive(false);
         _tutorialBoard.anchoredPosition = Vector2.zero;
     }
-
-    private void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "ChapterSelect")
-        {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                transform.GetChild(i).gameObject.SetActive(false);
-            }
-        }
-        else
-        {
-            _tutorialButton.SetActive(true);
-        }
-    }
+    
     public void X_Button()
     {
+        opneTutorial = false;
         _tutorialBoard.GetChild(currTutorialIndex).GetComponent<Animation>().Stop();
         tutorials.SetActive(false);
     }
