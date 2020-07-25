@@ -8,12 +8,14 @@ public class MapTile : MonoBehaviour
     public int currY;
     public TILE_TYPE myTileType;
     bool isSelected = false;
+    Sprite originSprite;
     Color originColor;
-    SpriteRenderer sprite;
+    SpriteRenderer spriteRenderer;
     private void Awake()
     {
-        sprite = GetComponent<SpriteRenderer>();
-        originColor = sprite.color;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        originSprite = spriteRenderer.sprite;
+        originColor = spriteRenderer.color;
     }
 
     public void Set_Index(int x, int y)
@@ -34,7 +36,7 @@ public class MapTile : MonoBehaviour
         if (TileController.instance.onMouseClick == true && isSelected == false)
         {
             isSelected = true;
-            sprite.color = new Color(0.5f, 0.9f, 1f);
+            spriteRenderer.color = new Color(0.5f, 0.9f, 1f);
             TileController.instance.selectedTile.Add(this);
         }
     }
@@ -48,8 +50,7 @@ public class MapTile : MonoBehaviour
     {
         //tileValue = tile.tileValue;
         myTileType = tile.myTileType;
-        sprite.color = tile.originColor;
-        originColor = tile.originColor;
+        spriteRenderer.sprite = tile.originSprite;
         for(int i=0;i<tile.transform.childCount;i++)
         {
             tile.transform.GetChild(i).parent = transform;
@@ -58,7 +59,8 @@ public class MapTile : MonoBehaviour
 
     public void UnSelectTile()
     {
-        sprite.color = originColor;
+        spriteRenderer.sprite = originSprite;
+        spriteRenderer.color = originColor;
         isSelected = false;
     }
 }
