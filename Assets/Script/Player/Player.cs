@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     //Player의 칸의 좌표
     Vector2 playerCoordinate;
     Vector2[] directionVector = { Vector2.down, Vector2.right, Vector2.up, Vector2.left };
-    private SpriteRenderer spriteRenderer;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     private Animator animator;
     [SerializeField] private float inputDelay = 1f;
     [SerializeField] Vector2 PlayerInitialSetCoordinate;
@@ -44,7 +44,10 @@ public class Player : MonoBehaviour
         => IsIdle() || IsCrouching();
 
     //Player의 Sprite의 X 반전 여부를 반환하는 함수
-    public bool IsPlyerXFlip => spriteRenderer.flipX;
+    public bool IsPlayerXFlip => spriteRenderer.flipX;
+
+    //Player의 좌표값(Index)를 반환하는 함수
+    public Vector2 GetPlayerCoordinate => playerCoordinate;
 
     //Gravity의 방향에 따라 Input값을 Player기준으로 변환시켜주는 함수
     private float MoveDirectionConvert(float xAxis, float yAxis)
@@ -201,8 +204,7 @@ public class Player : MonoBehaviour
                 {
                     playerCoordinate = targetCoordinate;
                     transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
-                    //transform.position = MapManager.instance.Get_MapTilePosition((int)playerGroundPosition.x, (int)playerGroundPosition.y) + GravityDirectionCorrectionVector();
-                    //spriteRenderer.flipX = false;
+                    spriteRenderer.flipX = false;
                     playerState = PlayerState.Move;
                     StartCoroutine(MovingTime());
                 }
@@ -212,7 +214,7 @@ public class Player : MonoBehaviour
                 {
                     playerGravityDirection = playerDirectionEnum[directionIndex];
                     transform.Rotate(new Vector3(0, 0, -90));
-                    //spriteRenderer.flipX = false;
+                    spriteRenderer.flipX = false;
                     playerState = PlayerState.Move;
                     StartCoroutine(MovingTime());
                 }
@@ -236,8 +238,7 @@ public class Player : MonoBehaviour
                     transform.Rotate(new Vector3(0, 0, -90));
                     playerCoordinate = targetGroundCoordinate;
                     transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
-                    //transform.position = MapManager.instance.Get_MapTilePosition((int)playerGroundPosition.x, (int)playerGroundPosition.y) + GravityDirectionCorrectionVector();
-                    //spriteRenderer.flipX = true;
+                    spriteRenderer.flipX = true;
                     playerState = PlayerState.Move;
                     StartCoroutine(MovingTime());
                 }
@@ -259,8 +260,7 @@ public class Player : MonoBehaviour
                     transform.Rotate(new Vector3(0, 0, 90));
                     playerCoordinate = targetGroundCoordinate;
                     transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
-                    //transform.position = MapManager.instance.Get_MapTilePosition((int)playerGroundPosition.x, (int)playerGroundPosition.y) + GravityDirectionCorrectionVector();
-                    //spriteRenderer.flipX = true;
+                    spriteRenderer.flipX = true;
                     playerState = PlayerState.Move;
                     StartCoroutine(MovingTime());
 
@@ -277,15 +277,11 @@ public class Player : MonoBehaviour
     //Player의 점프 처리 함수
     public void Jump()
     {
-        //if (Map.MoveCheck(playerPosition, directionVector[(playerGravityDirection + 2 + 4) % 4]))
-        {
-            playerGravityDirection = playerDirectionEnum[((int)playerGravityDirection + 2) % 4];
-            transform.Rotate(new Vector3(0, 0, 180));
-            //spriteRenderer.flipX = !IsPlayerXFilp;
-            playerState = PlayerState.Move;
-            StartCoroutine(MovingTime());
-        }
-
+        playerGravityDirection = playerDirectionEnum[((int)playerGravityDirection + 2) % 4];
+        transform.Rotate(new Vector3(0, 0, 180));
+        spriteRenderer.flipX = !IsPlayerXFlip;
+        playerState = PlayerState.Move;
+        StartCoroutine(MovingTime());
     }
 
     // Start is called before the first frame update
@@ -297,46 +293,6 @@ public class Player : MonoBehaviour
         playerGravityDirection = PlayerDirection.Down;
     }
 
-
-    //접기 기믹 후 Player Setting
-    public void playerFolding(Vector2 foldCoordinate, int direction)
-    {
-        playerCoordinate = foldCoordinate;
-        transform.rotation = Quaternion.Euler(0, 0, transform.rotation.z);
-        int convertedDirection = 0;
-        //UP
-        if (direction == 0)
-            convertedDirection = 0;
-        //Down
-        else if (direction == 1)
-            convertedDirection = 2;
-        //Left
-        else if (direction == 2)
-            convertedDirection = 3;
-        //Right
-        else if (direction == 3)
-            convertedDirection = 1;
-        else
-            Debug.LogError("Awrong Direction In playerFolding");
-
-        switch (((int)playerGravityDirection - convertedDirection + 4) % 4) {
-            case 0:
-                Jump();
-                break;
-            case 1:
-                //spriteRenderer.flipX = !IsPlayerXFilp;
-                break;
-            case 2:
-                Jump();
-                break;
-            case 3:
-                //spriteRenderer.flipX = !IsPlayerXFilp;
-                break;
-        }
-    }
-
-    // Update is called once per frame
-
     public void SetPlayer()
     {
         playerCoordinate = PlayerInitialSetCoordinate;
@@ -345,6 +301,46 @@ public class Player : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, 0);
         transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
     }
+
+    //접기 기믹 후 Player Setting
+    public void playerFolding(Vector2 foldCoordinate, int direction)
+    {
+        playerCoordinate = foldCoordinate;
+        transform.rotation = Quaternion.Euler(0, 0, transform.rotation.z);
+        int convertedDirection = direction;
+        ////UP
+        //if (direction == 0)
+        //    convertedDirection = 0;
+        ////Down
+        //else if (direction == 1)
+        //    convertedDirection = 2;
+        ////Left
+        //else if (direction == 2)
+        //    convertedDirection = 3;
+        ////Right
+        //else if (direction == 3)
+        //    convertedDirection = 1;
+        //else
+        //    Debug.LogError("Awrong Direction In playerFolding");
+
+        switch (((int)playerGravityDirection - convertedDirection + 4) % 4) {
+            case 0:
+                Jump();
+                break;
+            case 1:
+                spriteRenderer.flipX = !IsPlayerXFlip;
+                break;
+            case 2:
+                Jump();
+                break;
+            case 3:
+                spriteRenderer.flipX = !IsPlayerXFlip;
+                break;
+        }
+    }
+
+    // Update is called once per frame
+
 
     void CheckGround()
     {
@@ -358,7 +354,12 @@ public class Player : MonoBehaviour
             StartCoroutine(FaillingTime());
             //바닥으로 이동
         }
+    }
 
+    public void PlayerDie()
+    {
+        playerState = PlayerState.DIe;
+        //게임 재시작 함수 호출
     }
 
     IEnumerator MovingTime()
