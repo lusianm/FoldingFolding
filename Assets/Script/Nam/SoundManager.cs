@@ -112,12 +112,14 @@ public class SoundManager : MonoBehaviour
 
     public void SetMainVolume_BGM(float value)
     {
-        _bgmSource.volume = 0.2f * value;
+        _MainBGMVolume = value;
+        _bgmSource.volume = 0.2f * _MainBGMVolume;
     }
 
     public void SetMainVolume_SFX(float value)
     {
-        _sfxSource.volume = value;
+        _MainSFXVolume = value;
+        _sfxSource.volume = _MainSFXVolume;
     }
     
     //임시 사운드 퀵 플레이어

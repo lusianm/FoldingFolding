@@ -164,6 +164,8 @@ public class UIController : MonoBehaviour
     public void MoveToLobby()
     {
         X_Button();
+        SoundManager.instance.Play_BGM(BGM_LIST.ACTION_RETRO);
+
         GameManager.instance.SceneChange("ChapterSelect");
         _menuPanel.SetActive(false);
     }
