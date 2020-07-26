@@ -306,6 +306,8 @@ public class MapManager : MonoBehaviour
         //박스 터지는 이펙트 재생
         GameManager.instance.boxEffect.transform.position = MapTiles[x, y].transform.position;
         GameManager.instance.boxEffect.Play();
+
+        SoundManager.instance.Play_SFX(SFX_LIST.DESTROY_BLOCK);
     }
 
     /// <summary>
