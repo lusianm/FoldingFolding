@@ -92,6 +92,10 @@ public class Saw : MonoBehaviour, IInteractableObject
     {
         Debug.Log("sawFolding");
         sawCoordinate = foldCoordinate;
+        if (MapManager.instance.Get_MapTileType((int)sawCoordinate.x, (int)sawCoordinate.y) == 3)
+        {
+            MapManager.instance.SetTile_Passible((int)sawCoordinate.x, (int)sawCoordinate.y);
+        }
         transform.rotation = Quaternion.Euler(0, 0, 0);
         transform.position = MapManager.instance.Get_MapTilePosition((int)sawCoordinate.x, (int)sawCoordinate.y);
         targetPosition = transform.position;
