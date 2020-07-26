@@ -120,9 +120,9 @@ public class TileController : MonoBehaviour
         isRotating = true;
 
         //넘어가는 부분.
-        while (lastAngle < 180f)
+        while (lastAngle < 170f)
         {
-            angle = 180 * 0.05f;
+            angle = 170 * 0.05f;
             lastAngle += angle;
 
             switch (dir)
@@ -276,7 +276,7 @@ public class TileController : MonoBehaviour
         }
 
         isRotating = false;
-        bool backRoate = false;
+        bool backRotate = false;
         List<MapTile> hittedTileList = new List<MapTile>();
         for (int i = 0; i < copiedTile.Count; i++)
         {
@@ -291,19 +291,19 @@ public class TileController : MonoBehaviour
                     for (int j = 0; j < hitTile.transform.childCount; j++)
                     {
                         if (hitTile.transform.GetChild(j).tag == "Finish")
-                            backRoate = true;
+                            backRotate = true;
                     }
-                    if (backRoate == true) break;
+                    if (backRotate == true) break;
+                    
                     if (hitTile.myTileType == TILE_TYPE.검정_변형불가 || hitTile.myTileType == TILE_TYPE.노랑_톱니로부숴)
-                    {
-                        backRoate = true;
-                        break;
+                    {                        
+                        backRotate = true;
                     }
                     hittedTileList.Add(hitTile);
                 }
                 else
                 {
-                    backRoate = true;
+                    backRotate = true;
                 }
             }
             else
@@ -311,16 +311,16 @@ public class TileController : MonoBehaviour
                 Debug.Log("No hit!");
             }
         }
-
+        Debug.Log("Saw Index : " + sawIndexList + " hitted Tile Count : "+hittedTileList.Count);
         //되돌아 가는 부분.
-        if (backRoate == true)
+        if (backRotate == true)
         {
             Debug.Log("Back!!");
             angle = 0.0f;
             lastAngle = 0.0f;
-            while (lastAngle < 180f)
+            while (lastAngle < 170f)
             {
-                angle = 180 * 0.05f;
+                angle = 170 * 0.05f;
                 lastAngle += angle;
 
                 switch (dir)
@@ -493,6 +493,13 @@ public class TileController : MonoBehaviour
             }
             Vector2 newPlayerIndex = new Vector2(hittedTileList[playerIndexList].currX, hittedTileList[playerIndexList].currY);
             if (tileHasPlayer == true) Player.playerInstance.playerFolding(newPlayerIndex, (int)dir);
+
+            if (tileHasSaw == true)
+            {
+                Vector2 newTileIndex = new Vector2(hittedTileList[sawIndexList].currX, hittedTileList[sawIndexList].currY);
+                Saw.instance.sawFolding(newTileIndex, (int)dir);
+                Saw.instance.IsMoving = true;
+            }
         }
 
         selectedTile.Clear();
@@ -505,12 +512,6 @@ public class TileController : MonoBehaviour
         }
         isTileSelected = false;
 
-        if (tileHasSaw==true)
-        {
-            Vector2 newPlayerIndex = new Vector2(hittedTileList[sawIndexList].currX, hittedTileList[sawIndexList].currY);
-            Saw.instance.sawFolding(newPlayerIndex,(int)dir);
-            Saw.instance.IsMoving = true;
-        }
     }
 
 }
