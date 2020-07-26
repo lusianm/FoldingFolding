@@ -13,7 +13,7 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject _prevButton;
     [SerializeField] GameObject _nextButton;
     [SerializeField] GameObject _tutorialButton;
-    [SerializeField] GameObject _menuPanel;
+    public GameObject _menuPanel;
     int currTutorialIndex = 0;
     int totalIndex;
 
