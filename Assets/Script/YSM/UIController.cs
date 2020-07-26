@@ -151,12 +151,14 @@ public class UIController : MonoBehaviour
        
     public void BGMSoundVoulmeChange(Scrollbar scrollbar)
     {
-        SoundManager.instance._MainBGMVolume = scrollbar.value;
+        //SoundManager.instance._MainBGMVolume = scrollbar.value;
+        SoundManager.instance.SetMainVolume_BGM(scrollbar.value);
     }
 
     public void SFXSoundVoulmeChange(Scrollbar scrollbar)
     {
-        SoundManager.instance._MainSFXVolume = scrollbar.value;
+        //SoundManager.instance._MainSFXVolume = scrollbar.value;
+        SoundManager.instance.SetMainVolume_SFX(scrollbar.value);
     }
 
     public void MoveToLobby()

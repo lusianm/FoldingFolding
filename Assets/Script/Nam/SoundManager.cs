@@ -107,9 +107,19 @@ public class SoundManager : MonoBehaviour
     {
         if ((int)target >= _sfxClips.Length) return;
         
-        _sfxSource.PlayOneShot(_sfxClips[(int)target], vol);
+        _sfxSource.PlayOneShot(_sfxClips[(int)target], vol * _MainSFXVolume);
     }
 
+    public void SetMainVolume_BGM(float value)
+    {
+        _bgmSource.volume = 0.2f * value;
+    }
+
+    public void SetMainVolume_SFX(float value)
+    {
+        _sfxSource.volume = value;
+    }
+    
     //임시 사운드 퀵 플레이어
     KeyCode[] quick = { KeyCode.Alpha0, KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4,
                         KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9};
