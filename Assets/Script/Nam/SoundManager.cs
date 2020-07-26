@@ -13,18 +13,20 @@ public enum BGM_LIST
 
 public enum SFX_LIST
 {
-    PLAYER_MOVE,
-    PLAYER_JUMP,
-    PLAYER_DIE_1,
-    PLAYER_DIE_2,
-    BLOCK_ALERT,
-    DESTROY_BLOCK,
-    FOLD,
-    MENU_CLICK_1,
-    MENU_CLICK_2,
-    PLAYER_DIE3,
-    PLAYER_LAND,
-    FADE_STAGE
+    PLAYER_MOVE,        //0
+    PLAYER_JUMP,        //1
+    PLAYER_DIE_1,       //2
+    PLAYER_DIE_2,       //3
+    BLOCK_ALERT,        //4
+
+    DESTROY_BLOCK,      //5
+    FOLD,               //6
+    MENU_CLICK_1,       //7
+    MENU_CLICK_2,       //8
+    PLAYER_DIE3,        //9
+
+    PLAYER_LAND,        //10
+    FADE_STAGE          //11
 }
 
 public class SoundManager : MonoBehaviour
