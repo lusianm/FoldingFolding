@@ -303,8 +303,6 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-
-
     void Falling()
     {
         playerState = PlayerState.Falling;

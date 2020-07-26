@@ -13,6 +13,13 @@ public class ChapterSelectionManager : MonoBehaviour, ISceneManagerInterface
 
     public void SceneChange(string sceneName)
     {
+        SoundManager.instance.Play_SFX(SFX_LIST.FADE_STAGE);
+        StartCoroutine(sceneName);
+    }
+
+    IEnumerator SceneChangeTime(string sceneName)
+    {
+        yield return new WaitForSeconds(2f);
         GameManager.instance.SceneChange(sceneName);
     }
 }
