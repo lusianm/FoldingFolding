@@ -20,9 +20,7 @@ public class TileController : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
-            
         else
             DestroyImmediate(this);
     }
@@ -78,9 +76,12 @@ public class TileController : MonoBehaviour
         if (Saw.instance != null) sawIndex = Saw.instance.sawCoordinate;
         int sawIndexList = 0;
         bool tileHasSaw = false;
+        
         for (int i = 0; i < selectedTile.Count; i++)
         {
-            copiedTile.Add(Instantiate(selectedTile[i].gameObject));
+            Debug.Log("@@@ -> " + selectedTile.Count + " / !!! -> " + i + selectedTile[i].name);
+            GameObject copyObj = Instantiate(selectedTile[i].gameObject);
+            copiedTile.Add(copyObj);
             if(playerIndex.x==selectedTile[i].currX && playerIndex.y == selectedTile[i].currY)
             {
                 playerIndexList = i;
@@ -311,7 +312,6 @@ public class TileController : MonoBehaviour
                 Debug.Log("No hit!");
             }
         }
-        Debug.Log("Saw Index : " + sawIndexList + " hitted Tile Count : "+hittedTileList.Count);
         //되돌아 가는 부분.
         if (backRotate == true)
         {
