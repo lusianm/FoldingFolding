@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
@@ -12,6 +13,7 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject _prevButton;
     [SerializeField] GameObject _nextButton;
     [SerializeField] GameObject _tutorialButton;
+    [SerializeField] GameObject _menuPanel;
     int currTutorialIndex = 0;
     int totalIndex;
 
@@ -121,6 +123,56 @@ public class UIController : MonoBehaviour
             yield return null;
         }
         _tutorialBoard.GetChild(currTutorialIndex).GetComponent<Animation>().Play();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (StageManager.instance != null)
+            {
+                if (!TileController.instance.isTileSelected)
+                {
+                    if (_menuPanel.activeSelf)
+                        _menuPanel.SetActive(false);
+                    else
+                        _menuPanel.SetActive(true);
+                }
+            }
+            else
+            {
+                if (_menuPanel.activeSelf)
+                    _menuPanel.SetActive(false);
+                else
+                    _menuPanel.SetActive(true);
+            }
+        }
+    }
+       
+    public void BGMSoundVoulmeChange(Scrollbar scrollbar)
+    {
+        SoundManager.instance._MainBGMVolume = scrollbar.value;
+    }
+
+    public void SFXSoundVoulmeChange(Scrollbar scrollbar)
+    {
+        SoundManager.instance._MainSFXVolume = scrollbar.value;
+    }
+
+    public void MoveToLobby()
+    {
+        GameManager.instance.SceneChange("ChapterSelect");
+        _menuPanel.SetActive(false);
+    }
+
+    public void MoveToNextScene()
+    {
+        if(StageManager.instance != null)
+            StageManager.instance.StageClear();
+        else
+            GameManager.instance.SceneChange("Stage 1");
+        _menuPanel.SetActive(false);
+
     }
 
 

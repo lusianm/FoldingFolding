@@ -270,6 +270,10 @@ public class Player : MonoBehaviour
         playerState = PlayerState.Idle;
         transform.rotation = Quaternion.Euler(0, 0, ((int)playerGravityDirection + 2) * -90f);
         transform.position = MapManager.instance.Get_MapTilePosition((int)playerCoordinate.x, (int)playerCoordinate.y);
+
+        spriteRenderer = this.GetComponentInChildren<SpriteRenderer>();
+        playerAnimator = this.GetComponentInChildren<Animator>();
+        playerAnimator.Play("Idle", -1, 0f);
     }
 
     //접기 기믹 후 Player Setting
