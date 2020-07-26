@@ -371,9 +371,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21bc4e35af4c71b46a27c2586d5d39e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  opneTutorial: 0
+  tutorials: {fileID: 0}
   _tutorialBoard: {fileID: 0}
   _prevButton: {fileID: 0}
   _nextButton: {fileID: 0}
+  _tutorialButton: {fileID: 0}
+  _menuPanel: {fileID: 0}
 --- !u!1 &201482489
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,21 +423,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxx: 7
   maxy: 6
-  _inputTileData: '0022002
+  _inputTileData: '0001002
+
+    2012002
+
+    2022222
 
     2022002
 
-    0022002
+    2022002
 
-    0022002
-
-    0000002
-
-    0000012'
+    2100012'
   objsData:
   - posIndex: {x: 4, y: 0}
     objDir: 3
     objType: 1
+  - posIndex: {x: 0, y: 0}
+    objDir: 1
+    objType: 0
+  - posIndex: {x: 1, y: 1}
+    objDir: 1
+    objType: 0
+  - posIndex: {x: 2, y: 5}
+    objDir: 2
+    objType: 0
+  - posIndex: {x: 3, y: 5}
+    objDir: 2
+    objType: 0
+  - posIndex: {x: 4, y: 5}
+    objDir: 2
+    objType: 0
   - posIndex: {x: 5, y: 4}
     objDir: 2
     objType: 2
@@ -2635,7 +2654,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSceneName: Stage 6
-  menuPanel: {fileID: 1781899352}
 --- !u!1001 &1340061641
 PrefabInstance:
   m_ObjectHideFlags: 0

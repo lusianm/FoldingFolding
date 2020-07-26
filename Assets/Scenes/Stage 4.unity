@@ -331,9 +331,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21bc4e35af4c71b46a27c2586d5d39e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  opneTutorial: 0
+  tutorials: {fileID: 0}
   _tutorialBoard: {fileID: 0}
   _prevButton: {fileID: 0}
   _nextButton: {fileID: 0}
+  _tutorialButton: {fileID: 0}
+  _menuPanel: {fileID: 0}
 --- !u!1 &201482489
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,14 +393,17 @@ MonoBehaviour:
 
     0000000
 
-    0000000'
+    0001000'
   objsData:
   - posIndex: {x: 2, y: 1}
     objDir: 2
     objType: 1
-  - posIndex: {x: 1, y: 5}
+  - posIndex: {x: 4, y: 5}
     objDir: 1
     objType: 3
+  - posIndex: {x: 3, y: 4}
+    objDir: 2
+    objType: 0
   - posIndex: {x: 5, y: 5}
     objDir: 2
     objType: 2
@@ -2667,7 +2674,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSceneName: Stage 5
-  menuPanel: {fileID: 1796644019}
 --- !u!1001 &1326926541
 PrefabInstance:
   m_ObjectHideFlags: 0

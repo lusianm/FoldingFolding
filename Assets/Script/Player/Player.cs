@@ -327,6 +327,7 @@ public class Player : MonoBehaviour
     public void StageClear()
     {
         playerState = PlayerState.StageClear;
+        playerAnimator.SetTrigger("PlayerWin");
         stageClear = true;
 
     }
