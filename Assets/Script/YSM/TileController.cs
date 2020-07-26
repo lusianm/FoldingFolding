@@ -79,7 +79,6 @@ public class TileController : MonoBehaviour
         
         for (int i = 0; i < selectedTile.Count; i++)
         {
-            Debug.Log("@@@ -> " + selectedTile.Count + " / !!! -> " + i + selectedTile[i].name);
             GameObject copyObj = Instantiate(selectedTile[i].gameObject);
             copiedTile.Add(copyObj);
             if(playerIndex.x==selectedTile[i].currX && playerIndex.y == selectedTile[i].currY)
@@ -309,6 +308,7 @@ public class TileController : MonoBehaviour
             }
             else
             {
+                backRotate = true;
                 Debug.Log("No hit!");
             }
         }
