@@ -163,8 +163,14 @@ public class UIController : MonoBehaviour
 
     public void MoveToLobby()
     {
+        X_Button();
         GameManager.instance.SceneChange("ChapterSelect");
         _menuPanel.SetActive(false);
+    }
+
+    public void GameQuit()
+    {
+        Application.Quit();
     }
 
     public void MoveToNextScene()
