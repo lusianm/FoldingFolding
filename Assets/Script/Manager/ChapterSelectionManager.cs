@@ -14,7 +14,7 @@ public class ChapterSelectionManager : MonoBehaviour, ISceneManagerInterface
     public void SceneChange(string sceneName)
     {
         SoundManager.instance.Play_SFX(SFX_LIST.FADE_STAGE);
-        StartCoroutine(sceneName);
+        StartCoroutine(SceneChangeTime(sceneName));
     }
 
     IEnumerator SceneChangeTime(string sceneName)
